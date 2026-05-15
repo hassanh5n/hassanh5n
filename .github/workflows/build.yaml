@@ -1,0 +1,47 @@
+name: README build
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # Runs every day at 04:00 UTC
+    - cron: "0 4 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate SVG profile
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          USER_NAME:    ${{ secrets.USER_NAME }}
+          BIRTHDAY:     ${{ secrets.BIRTHDAY }}
+        run: python generate_profile.py
+
+      - name: Commit updated SVGs
+        run: |
+          git config --global user.email "github-actions-bot@hassanh5n.github.io"
+          git config --global user.name  "hassanh5n/GitHub-Actions-Bot"
+          git add dark_mode.svg light_mode.svg
+          git diff --cached --quiet || git commit -m "chore: update profile SVG [skip ci]"
+          git push
