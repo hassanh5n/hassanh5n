@@ -525,14 +525,14 @@ def build_svg(dark, stats, loc_total, loc_add, loc_del, uptime):
     text_node(right_x + len(header) * info_cw + 20, y, "-" * 49, theme["fg"], weight="700")
 
     y += info_lh * 1.05
-    row("OS", "Windows 10, Android 14, Linux", y); y += info_lh
+    row("OS", "Windows, Linux", y); y += info_lh
     row("Uptime", uptime, y); y += info_lh
     row("Host", "FAST NUCES Student", y); y += info_lh
     row("Kernel", "DevOps, Cloud, AI/ML, Systems", y); y += info_lh
     row("IDE", "VSCode, AntiGravity, Jupyter", y); y += info_lh * 1.35
 
     row("Languages.Programming", "Python, C/C++, C#, JavaScript", y); y += info_lh
-    row("Languages.Systems", "Linux, Bash, Docker, CI/CD", y); y += info_lh
+    row("Languages.Systems", "Linux, Bash, Docker, CI/CD, AWS", y); y += info_lh
     row("Data.Bases", "MySQL, PostgreSQL, MongoDB", y); y += info_lh
     row("Frameworks", "Django, React, ASP.NET, Scikit-learn", y); y += info_lh
     row("Projects", ", ".join(p[0] for p in PROJECTS), y); y += info_lh
