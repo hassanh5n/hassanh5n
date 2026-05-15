@@ -11,13 +11,17 @@ Optional env vars:
   PROFILE_COMMIT_EMAIL  - used by the workflow when publishing generated SVGs
 """
 
+import base64
 import datetime
+import io
 import os
 import time
+from pathlib import Path
 from urllib.parse import quote
 
 import requests
 from dateutil import relativedelta
+from PIL import Image, ImageOps
 
 
 TOKEN = (os.environ.get("ACCESS_TOKEN") or "").strip()
@@ -28,6 +32,8 @@ LOC_TIMEOUT_SECONDS = float(os.environ.get("LOC_TIMEOUT_SECONDS") or "15")
 LOC_REPO_LIMIT = int(os.environ.get("LOC_REPO_LIMIT") or "8")
 LOC_COMMITS_PER_REPO = int(os.environ.get("LOC_COMMITS_PER_REPO") or "12")
 LOC_FILE_LIMIT = int(os.environ.get("LOC_FILE_LIMIT") or "180")
+ASSET_DIR = Path(__file__).resolve().parent / "assets"
+ASCII_ART_IMAGE = ASSET_DIR / "ascii-art.png"
 
 DEFAULT_STATS = {
     "repos": "25",
@@ -331,7 +337,8 @@ def get_loc():
     return "refreshing", "pending", "pending"
 
 
-def escape(value):    return (
+def escape(value):
+    return (
         str(value)
         .replace("&", "&amp;")
         .replace("<", "&lt;")
@@ -346,6 +353,39 @@ def trim(value, limit):
         return value
     return value[: max(0, limit - 3)] + "..."
 
+def hex_to_rgb(hex_color):
+    hex_color = hex_color.lstrip("#")
+    return tuple(int(hex_color[i : i + 2], 16) for i in (0, 2, 4))
+
+
+def ascii_image_data_uri(color):
+    if not ASCII_ART_IMAGE.exists():
+        return None
+
+    with Image.open(ASCII_ART_IMAGE) as source:
+        source = source.convert("RGBA")
+        gray = ImageOps.grayscale(source)
+
+        # Treat the white screenshot background as transparent and keep the ASCII ink.
+        ink_mask = gray.point(lambda p: 255 if p < 245 else 0)
+        bbox = ink_mask.getbbox()
+        if bbox:
+            gray = gray.crop(bbox)
+
+        rgb = hex_to_rgb(color)
+        alpha = gray.point(lambda p: max(0, min(255, int((255 - p) * 1.55))))
+        rendered = Image.new("RGBA", gray.size, rgb + (0,))
+        rendered.putalpha(alpha)
+
+        out = io.BytesIO()
+        rendered.save(out, format="PNG", optimize=True)
+
+    encoded = base64.b64encode(out.getvalue()).decode("ascii")
+    return {
+        "href": f"data:image/png;base64,{encoded}",
+        "width": rendered.width,
+        "height": rendered.height,
+    }
 
 def build_svg(dark, stats, loc_total, loc_add, loc_del, uptime):
     theme = {
@@ -360,10 +400,10 @@ def build_svg(dark, stats, loc_total, loc_add, loc_del, uptime):
         "red": "#ff6b6b",
     }
 
-    width = 1240
-    height = 665
-    right_x = 575
-    right_edge = 1202
+    width = 1500
+    height = 760
+    right_x = 720
+    right_edge = 1458
 
     font = 'font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace"'
     ascii_fs = 18.0
@@ -388,13 +428,30 @@ def build_svg(dark, stats, loc_total, loc_add, loc_del, uptime):
             f'{escape(text)}</text>'
         )
 
-    art_width = max(len(row) for row in ASCII_ART) * ascii_cw
-    art_height = (len(ASCII_ART) - 1) * ascii_lh
-    art_x = max(38, right_x - 34 - art_width)
-    art_y = (height - art_height) / 2 + ascii_fs / 2
+    art_box_x = 40
+    art_box_y = 36
+    art_box_w = right_x - 76
+    art_box_h = height - 72
+    art_image = ascii_image_data_uri(theme["ascii"])
 
-    for i, row in enumerate(ASCII_ART):
-        text_node(art_x, art_y + i * ascii_lh, row, theme["ascii"], ascii_fs)
+    if art_image:
+        scale = min(art_box_w / art_image["width"], art_box_h / art_image["height"])
+        art_w = art_image["width"] * scale
+        art_h = art_image["height"] * scale
+        art_x = art_box_x + (art_box_w - art_w) / 2
+        art_y = art_box_y + (art_box_h - art_h) / 2
+        lines.append(
+            f'<image x="{art_x:.1f}" y="{art_y:.1f}" width="{art_w:.1f}" '
+            f'height="{art_h:.1f}" href="{art_image["href"]}" '
+            f'preserveAspectRatio="xMidYMid meet"/>'
+        )
+    else:
+        art_width = max(len(row) for row in ASCII_ART) * ascii_cw
+        art_height = (len(ASCII_ART) - 1) * ascii_lh
+        art_x = max(38, right_x - 34 - art_width)
+        art_y = (height - art_height) / 2 + ascii_fs / 2
+        for i, row in enumerate(ASCII_ART):
+            text_node(art_x, art_y + i * ascii_lh, row, theme["ascii"], ascii_fs)
 
     def trim_to(value, max_chars):
         return trim(value, max_chars)
