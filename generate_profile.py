@@ -1,3 +1,15 @@
+"""
+GitHub Profile README Generator
+Generates dark_mode.svg and light_mode.svg for hassanh5n's GitHub profile.
+
+Required GitHub Actions secrets:
+  ACCESS_TOKEN  - Fine-grained PAT with read:followers, repos, commits
+  USER_NAME     - your GitHub username (hassanh5n)
+
+Optional env vars (for customization):
+  BIRTHDAY      - e.g. "2002-01-15"  (YYYY-MM-DD)
+"""
+
 import datetime
 import os
 import requests
@@ -6,12 +18,15 @@ from dateutil import relativedelta
 # ── Config ────────────────────────────────────────────────────────────────────
 HEADERS     = {'authorization': 'token ' + os.environ.get('ACCESS_TOKEN', '')}
 USER_NAME   = os.environ.get('USER_NAME', 'hassanh5n')
-BIRTHDAY    = os.environ.get('BIRTHDAY', '2004-02-19')   # ← SET YOUR BIRTHDAY
+BIRTHDAY    = os.environ.get('BIRTHDAY', '2003-01-01')   # ← SET YOUR BIRTHDAY
 
 PROJECTS = [
-    ("FAST-Transport",  "https://github.com/hassanh5n/FAST-Transport",          "A Transport Management System for FAST NUCES"),
-    ("E-Stocks",  "https://github.com/hassanh5n/E-Stocks",          "Stock Market Simulation for Investors and Public"),
-    ("MultiThreaded-FD",     "https://github.com/hassanh5n/MultiThreaded-File-Downloader",             "A system that download a file from the internet, efficiently"),
+    # (name,  url,  short description)
+    ("hassanh5n",        "https://github.com/hassanh5n/hassanh5n",            "This profile README"),
+    # ── ADD YOUR REAL PROJECTS BELOW ──────────────────────────────────────────
+    # ("project-name",  "https://github.com/hassanh5n/project-name",          "One-line description"),
+    # ("another-repo",  "https://github.com/hassanh5n/another-repo",          "What it does"),
+    # ("cool-tool",     "https://github.com/hassanh5n/cool-tool",             "Infra automation thing"),
 ]
 
 # ── ASCII art (pre-rendered from photo) ───────────────────────────────────────
@@ -269,8 +284,8 @@ def build_svg(dark: bool, stats: dict, loc_total: str, loc_add: str, loc_del: st
     y += lh * 0.6
     section_header('Contact', y); y += lh
     row('  GitHub',   'github.com/hassanh5n',      y, vcolor=accent2); y += lh
-    row('  LinkedIn', 'linkedin.com/in/shaikh-hassan-nafees-640998227', y, vcolor=accent2); y += lh
-    row('  Email', 'hassannafees.hn@email.com',             y, vcolor=accent2); y += lh
+    row('  LinkedIn', 'linkedin.com/in/hassanh5n', y, vcolor=accent2); y += lh
+    # row('  Email', 'your@email.com',             y, vcolor=accent2); y += lh  # uncomment
 
     y += lh * 0.6
     section_header('GitHub Stats', y); y += lh
