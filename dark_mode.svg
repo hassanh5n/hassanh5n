@@ -26,8 +26,8 @@
   <text x="176" y="33.5" font-family="'Courier New', Courier, monospace" font-size="12.5" fill="#79c0ff" font-weight="700">hassan@h5n</text>
   <text x="251.0" y="33.5" font-family="'Courier New', Courier, monospace" font-size="12.5" fill="#8b949e"> ──────────────────────────────────────────</text>
   <text x="176" y="55.2" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  OS</text>
-  <text x="203.68" y="55.2" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.............................</text>
-  <text x="447.0" y="55.2" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >Linux · Windows · Android</text>
+  <text x="203.68" y="55.2" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">......................................</text>
+  <text x="516.2" y="55.2" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >Linux · Windows</text>
   <text x="176" y="70.7" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Uptime</text>
   <text x="231.36" y="70.7" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">........................</text>
   <text x="433.15999999999997" y="70.7" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >22 years, 2 months, 26 days</text>
@@ -35,46 +35,58 @@
   <text x="231.36" y="86.2" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">...................</text>
   <text x="398.56" y="86.2" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >DevOps · Cloud · AI/ML · Systems</text>
   <text x="176" y="101.7" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  IDE</text>
-  <text x="210.6" y="101.7" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">............................</text>
-  <text x="440.08000000000004" y="101.7" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >VSCode · Neovim · IntelliJ</text>
+  <text x="210.6" y="101.7" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">........................</text>
+  <text x="412.4" y="101.7" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >VSCode · AntiGravity · Jupyter</text>
   <text x="176" y="126.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Lang.Code</text>
-  <text x="252.12" y="126.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.................</text>
-  <text x="398.56" y="126.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >Python · Go · C++ · Rust · JS/TS</text>
-  <text x="176" y="142.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Lang.Infra</text>
-  <text x="259.03999999999996" y="142.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.................</text>
-  <text x="405.48" y="142.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >Terraform · Docker · K8s · Bash</text>
-  <text x="176" y="157.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Cloud</text>
-  <text x="224.44" y="157.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">..................................</text>
-  <text x="502.36" y="157.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >AWS · GCP · Azure</text>
-  <text x="176" y="173.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Hobbies</text>
-  <text x="238.28" y="173.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">..................</text>
-  <text x="391.64" y="173.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >Building things · Breaking things</text>
-  <text x="176" y="197.8" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#ffa657" font-weight="600">- Projects ─────────────────────────────────────────────────────</text>
-  <text x="176" y="213.3" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#c9d1d9">  › hassanh5n</text>
-  <text x="265.96" y="213.3" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.........................</text>
-  <text x="488.52" y="213.3" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">This profile README</text>
-  <text x="176" y="238.10000000000002" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#ffa657" font-weight="600">- Contact ──────────────────────────────────────────────────────</text>
-  <text x="176" y="253.60000000000002" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  GitHub</text>
-  <text x="231.36" y="253.60000000000002" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">..............................</text>
-  <text x="481.6" y="253.60000000000002" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >github.com/hassanh5n</text>
-  <text x="176" y="269.1" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  LinkedIn</text>
-  <text x="245.2" y="269.1" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">........................</text>
-  <text x="447.0" y="269.1" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >linkedin.com/in/hassanh5n</text>
-  <text x="176" y="293.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#ffa657" font-weight="600">- GitHub Stats ─────────────────────────────────────────────────</text>
-  <text x="176" y="309.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Repos</text>
-  <text x="224.44" y="309.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">...............................</text>
-  <text x="481.6" y="309.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >25 (contributed: 25)</text>
-  <text x="176" y="324.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Stars</text>
-  <text x="224.44" y="324.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">................................................</text>
-  <text x="613.08" y="324.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >2</text>
-  <text x="176" y="340.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Commits</text>
-  <text x="238.28" y="340.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.............................................</text>
-  <text x="599.24" y="340.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >202</text>
-  <text x="176" y="355.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Followers</text>
-  <text x="252.12" y="355.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.............................................</text>
-  <text x="613.08" y="355.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >9</text>
-  <text x="176" y="371.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#c9d1d9">  Lines of Code: 0 (</text>
-  <text x="321.32" y="371.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#3fb950">0++, </text>
-  <text x="355.92" y="371.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">0--</text>
-  <text x="376.68" y="371.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#c9d1d9">)</text>
+  <text x="252.12" y="126.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">............................</text>
+  <text x="488.52" y="126.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >Python · C/C++ · C#</text>
+  <text x="176" y="142.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  DevOps.Cloud</text>
+  <text x="272.88" y="142.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">..................</text>
+  <text x="426.24" y="142.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >Docker · CI/CD · AWS · Linux</text>
+  <text x="176" y="157.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Data.Bases</text>
+  <text x="259.03999999999996" y="157.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">...................</text>
+  <text x="426.24" y="157.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >MySQL · PostgreSQL · MongoDB</text>
+  <text x="176" y="173.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Frameworks</text>
+  <text x="259.03999999999996" y="173.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.........</text>
+  <text x="343.2" y="173.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >Django · React · ASP .NET · Scikit-learn</text>
+  <text x="176" y="188.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Hobbies</text>
+  <text x="238.28" y="188.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">..................</text>
+  <text x="391.64" y="188.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >Building things · Breaking things</text>
+  <text x="176" y="213.3" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#ffa657" font-weight="600">- Projects ─────────────────────────────────────────────────────</text>
+  <text x="176" y="228.8" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#c9d1d9">  › FAST-Transport</text>
+  <text x="300.56" y="228.8" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.....</text>
+  <text x="357.04" y="228.8" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">A Transport Management System for FAST</text>
+  <text x="176" y="244.3" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#c9d1d9">  › E-Stocks</text>
+  <text x="259.03999999999996" y="244.3" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">...........</text>
+  <text x="363.96" y="244.3" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">Stock Market Simulation for Investors</text>
+  <text x="176" y="259.8" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#c9d1d9">  › MultiThreaded-FD</text>
+  <text x="314.4" y="259.8" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">...</text>
+  <text x="357.04" y="259.8" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">Download a File from Internet, Efficie</text>
+  <text x="176" y="284.6" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#ffa657" font-weight="600">- Contact ──────────────────────────────────────────────────────</text>
+  <text x="176" y="300.1" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  GitHub</text>
+  <text x="231.36" y="300.1" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">..............................</text>
+  <text x="481.6" y="300.1" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >github.com/hassanh5n</text>
+  <text x="176" y="315.6" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  LinkedIn</text>
+  <text x="245.2" y="315.6" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.....</text>
+  <text x="301.68" y="315.6" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >linkedin.com/in/shaikh-hassan-nafees-640998227</text>
+  <text x="176" y="331.1" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Email</text>
+  <text x="224.44" y="331.1" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">...........................</text>
+  <text x="447.0" y="331.1" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >hassannafees.hn@email.com</text>
+  <text x="176" y="355.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#ffa657" font-weight="600">- GitHub Stats ─────────────────────────────────────────────────</text>
+  <text x="176" y="371.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Repos</text>
+  <text x="224.44" y="371.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">...............................</text>
+  <text x="481.6" y="371.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >25 (contributed: 25)</text>
+  <text x="176" y="386.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Stars</text>
+  <text x="224.44" y="386.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">................................................</text>
+  <text x="613.08" y="386.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >2</text>
+  <text x="176" y="402.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Commits</text>
+  <text x="238.28" y="402.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.............................................</text>
+  <text x="599.24" y="402.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >204</text>
+  <text x="176" y="417.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Followers</text>
+  <text x="252.12" y="417.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.............................................</text>
+  <text x="613.08" y="417.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >9</text>
+  <text x="176" y="433.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#c9d1d9">  Lines of Code: 0 (</text>
+  <text x="321.32" y="433.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#3fb950">0++, </text>
+  <text x="355.92" y="433.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">0--</text>
+  <text x="376.68" y="433.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#c9d1d9">)</text>
 </svg>
