@@ -18,15 +18,12 @@ from dateutil import relativedelta
 # ── Config ────────────────────────────────────────────────────────────────────
 HEADERS     = {'authorization': 'token ' + os.environ.get('ACCESS_TOKEN', '')}
 USER_NAME   = os.environ.get('USER_NAME', 'hassanh5n')
-BIRTHDAY    = os.environ.get('BIRTHDAY', '2003-01-01')   # ← SET YOUR BIRTHDAY
+BIRTHDAY    = os.environ.get('BIRTHDAY', '2004-02-19') 
 
 PROJECTS = [
-    # (name,  url,  short description)
-    ("hassanh5n",        "https://github.com/hassanh5n/hassanh5n",            "This profile README"),
-    # ── ADD YOUR REAL PROJECTS BELOW ──────────────────────────────────────────
-    # ("project-name",  "https://github.com/hassanh5n/project-name",          "One-line description"),
-    # ("another-repo",  "https://github.com/hassanh5n/another-repo",          "What it does"),
-    # ("cool-tool",     "https://github.com/hassanh5n/cool-tool",             "Infra automation thing"),
+    ("FAST-Transport",  "https://github.com/hassanh5n/FAST-Transport",          "A Transport Management System for FAST NUCES"),
+    ("E-Stocks",  "https://github.com/hassanh5n/E-Stocks",          "Stock Market Simulation for Investors"),
+    ("MultiThreaded-FD",     "https://github.com/hassanh5n/MultiThreaded-File-Downloader",             "Download a File from Internet, Efficiently"),
 ]
 
 # ── ASCII art (pre-rendered from photo) ───────────────────────────────────────
@@ -250,15 +247,16 @@ def build_svg(dark: bool, stats: dict, loc_total: str, loc_add: str, loc_del: st
     )
 
     y += lh * 1.4
-    row('  OS',       'Linux · Windows · Android',       y);   y += lh
+    row('  OS',       'Linux · Windows',       y);   y += lh
     row('  Uptime',   uptime,                            y);   y += lh
     row('  Kernel',   'DevOps · Cloud · AI/ML · Systems', y);  y += lh
-    row('  IDE',      'VSCode · Neovim · IntelliJ',      y);   y += lh
+    row('  IDE',      'VSCode · AntiGravity · Jupyter',      y);   y += lh
 
     y += lh * 0.6
-    row('  Lang.Code',  'Python · Go · C++ · Rust · JS/TS',  y); y += lh
-    row('  Lang.Infra', 'Terraform · Docker · K8s · Bash',   y); y += lh
-    row('  Cloud',      'AWS · GCP · Azure',                  y); y += lh
+    row('  Lang.Code',  'Python · C/C++ · C#',  y); y += lh
+    row('  DevOps.Cloud', 'Docker · CI/CD · AWS · Linux',   y); y += lh
+    row('  Data.Bases',      'MySQL · PostgreSQL · MongoDB',                  y); y += lh
+    row('  Frameworks', 'Django · React · ASP .NET · Scikit-learn', y); y += lh
     row('  Hobbies',    'Building things · Breaking things',  y); y += lh
 
     y += lh * 0.6
@@ -284,8 +282,8 @@ def build_svg(dark: bool, stats: dict, loc_total: str, loc_add: str, loc_del: st
     y += lh * 0.6
     section_header('Contact', y); y += lh
     row('  GitHub',   'github.com/hassanh5n',      y, vcolor=accent2); y += lh
-    row('  LinkedIn', 'linkedin.com/in/hassanh5n', y, vcolor=accent2); y += lh
-    # row('  Email', 'your@email.com',             y, vcolor=accent2); y += lh  # uncomment
+    row('  LinkedIn', 'linkedin.com/in/shaikh-hassan-nafees-640998227', y, vcolor=accent2); y += lh
+    row('  Email', 'hassannafees.hn@email.com',             y, vcolor=accent2); y += lh
 
     y += lh * 0.6
     section_header('GitHub Stats', y); y += lh
