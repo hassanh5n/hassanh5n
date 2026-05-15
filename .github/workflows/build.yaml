@@ -46,28 +46,13 @@ jobs:
           LOC_REPO_LIMIT: 8
         run: python generate_profile.py
 
-      - name: Publish generated SVGs
+      - name: Commit generated SVGs
         env:
-          PROFILE_BRANCH: profile-assets
           PROFILE_COMMIT_NAME: ${{ secrets.USER_NAME || github.repository_owner }}
           PROFILE_COMMIT_EMAIL: ${{ secrets.PROFILE_COMMIT_EMAIL || format('{0}@users.noreply.github.com', github.repository_owner) }}
         run: |
-          mkdir -p /tmp/profile-svg
-          cp dark_mode.svg light_mode.svg /tmp/profile-svg/
-          git restore --staged --worktree dark_mode.svg light_mode.svg
-
           git config user.name "$PROFILE_COMMIT_NAME"
           git config user.email "$PROFILE_COMMIT_EMAIL"
-
-          if git ls-remote --exit-code --heads origin "$PROFILE_BRANCH" > /dev/null 2>&1; then
-            git fetch origin "$PROFILE_BRANCH"
-            git switch -C "$PROFILE_BRANCH" "origin/$PROFILE_BRANCH"
-          else
-            git switch --orphan "$PROFILE_BRANCH"
-          fi
-
-          git rm -r --ignore-unmatch .
-          cp /tmp/profile-svg/dark_mode.svg /tmp/profile-svg/light_mode.svg .
           git add dark_mode.svg light_mode.svg
-          git diff --cached --quiet || git commit -m "Update profile SVG"
-          git push origin "$PROFILE_BRANCH"
+          git diff --cached --quiet || git commit -m "Update profile SVG [skip ci]"
+          git push origin HEAD:main

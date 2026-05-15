@@ -14,16 +14,20 @@ Optional env vars:
 import datetime
 import os
 import time
+from urllib.parse import quote
 
 import requests
 from dateutil import relativedelta
 
 
-HEADERS = {"authorization": "token " + os.environ.get("ACCESS_TOKEN", "")}
+TOKEN = (os.environ.get("ACCESS_TOKEN") or "").strip()
+HEADERS = {"Authorization": f"Bearer {TOKEN}"} if TOKEN else {}
 USER_NAME = os.environ.get("USER_NAME") or "hassanh5n"
 BIRTHDAY = os.environ.get("BIRTHDAY") or "2004-02-19"
 LOC_TIMEOUT_SECONDS = float(os.environ.get("LOC_TIMEOUT_SECONDS") or "15")
 LOC_REPO_LIMIT = int(os.environ.get("LOC_REPO_LIMIT") or "8")
+LOC_COMMITS_PER_REPO = int(os.environ.get("LOC_COMMITS_PER_REPO") or "12")
+LOC_FILE_LIMIT = int(os.environ.get("LOC_FILE_LIMIT") or "180")
 
 DEFAULT_STATS = {
     "repos": "25",
@@ -92,7 +96,7 @@ def calc_uptime():
 
 
 def gql(query, variables=None):
-    if not os.environ.get("ACCESS_TOKEN"):
+    if not TOKEN:
         return None
 
     try:
@@ -140,6 +144,37 @@ def get_user_stats():
     }
 
 
+def request_json(url, params=None, timeout=8):
+    try:
+        r = requests.get(url, params=params or {}, headers=HEADERS, timeout=timeout)
+    except requests.RequestException:
+        return None
+
+    if r.status_code == 200:
+        return r.json()
+    return None
+
+
+def get_public_repositories():
+    repos = []
+    page = 1
+    while True:
+        data = request_json(
+            f"https://api.github.com/users/{USER_NAME}/repos",
+            params={"type": "owner", "per_page": 100, "page": page},
+            timeout=10,
+        )
+        if not data:
+            break
+
+        repos.extend(repo["full_name"] for repo in data if not repo.get("fork"))
+        if len(data) < 100:
+            break
+        page += 1
+
+    return repos
+
+
 def get_repositories():
     q = """
     query($login: String!, $cursor: String) {
@@ -152,7 +187,7 @@ def get_repositories():
     }"""
 
     repos, cursor = [], None
-    while True:
+    while TOKEN:
         data = gql(q, {"login": USER_NAME, "cursor": cursor})
         if not data or "errors" in data:
             break
@@ -161,69 +196,142 @@ def get_repositories():
         if not info["pageInfo"]["hasNextPage"]:
             break
         cursor = info["pageInfo"]["endCursor"]
-    return repos
+
+    return repos or get_public_repositories()
 
 
-def get_contributor_stats(owner, name):
-    """Return cached contributor stats without waiting for GitHub to compute them."""
-    url = f"https://api.github.com/repos/{owner}/{name}/stats/contributors"
+def get_commit_loc(repos, deadline):
+    added = deleted = commit_count = 0
 
-    try:
-        r = requests.get(url, headers=HEADERS, timeout=6)
-    except requests.RequestException:
+    for repo in repos[:LOC_REPO_LIMIT]:
+        if time.monotonic() >= deadline:
+            break
+
+        print(f"LOC commits: checking {repo}", flush=True)
+        commits = request_json(
+            f"https://api.github.com/repos/{repo}/commits",
+            params={"author": USER_NAME, "per_page": LOC_COMMITS_PER_REPO},
+            timeout=8,
+        )
+        if not isinstance(commits, list):
+            continue
+
+        for commit in commits:
+            if time.monotonic() >= deadline:
+                break
+
+            sha = commit.get("sha")
+            if not sha:
+                continue
+
+            detail = request_json(
+                f"https://api.github.com/repos/{repo}/commits/{sha}",
+                timeout=8,
+            )
+            stats = (detail or {}).get("stats") or {}
+            if not stats:
+                continue
+
+            added += stats.get("additions", 0)
+            deleted += stats.get("deletions", 0)
+            commit_count += 1
+
+    if commit_count == 0 or (added == 0 and deleted == 0):
         return None
+    return added, deleted
 
-    if r.status_code == 200:
-        return r.json()
-    return None
+
+CODE_EXTENSIONS = {
+    ".py", ".js", ".jsx", ".ts", ".tsx", ".java", ".c", ".cpp", ".h", ".hpp",
+    ".cs", ".go", ".rs", ".php", ".rb", ".swift", ".kt", ".kts", ".html",
+    ".css", ".scss", ".sql", ".sh", ".ps1", ".yaml", ".yml", ".json", ".md",
+}
+SKIP_PATH_PARTS = {
+    ".git", ".github", "node_modules", "vendor", "dist", "build", "target", "bin",
+    "obj", "__pycache__", ".venv", "venv", "cache",
+}
+
+
+def should_count_path(path, size):
+    if size > 220_000:
+        return False
+    parts = set(path.replace("\\", "/").split("/"))
+    if parts & SKIP_PATH_PARTS:
+        return False
+    _, ext = os.path.splitext(path.lower())
+    return ext in CODE_EXTENSIONS
+
+
+def count_current_repo_lines(repo, deadline):
+    meta = request_json(f"https://api.github.com/repos/{repo}", timeout=8)
+    if not meta:
+        return 0
+
+    branch = meta.get("default_branch") or "main"
+    tree = request_json(
+        f"https://api.github.com/repos/{repo}/git/trees/{quote(branch, safe='')}",
+        params={"recursive": "1"},
+        timeout=10,
+    )
+    entries = (tree or {}).get("tree") or []
+    total = 0
+    files_seen = 0
+
+    for entry in entries:
+        if time.monotonic() >= deadline or files_seen >= LOC_FILE_LIMIT:
+            break
+        if entry.get("type") != "blob":
+            continue
+
+        path = entry.get("path") or ""
+        if not should_count_path(path, entry.get("size") or 0):
+            continue
+
+        raw_url = f"https://raw.githubusercontent.com/{repo}/{quote(branch, safe='')}/{quote(path)}"
+        try:
+            r = requests.get(raw_url, headers=HEADERS, timeout=5)
+        except requests.RequestException:
+            continue
+        if r.status_code != 200 or "\0" in r.text:
+            continue
+
+        text = r.text
+        total += text.count("\n") + (1 if text and not text.endswith("\n") else 0)
+        files_seen += 1
+
+    return total
+
+
+def get_current_loc(repos, deadline):
+    total = 0
+    for repo in repos[:LOC_REPO_LIMIT]:
+        if time.monotonic() >= deadline:
+            break
+        print(f"LOC files: checking {repo}", flush=True)
+        total += count_current_repo_lines(repo, deadline)
+    return total
 
 
 def get_loc():
-    """Returns total, added, and deleted lines across owned repositories.
-
-    GitHub's contributor-stats endpoint is eventually computed and can return 202
-    for a long time. Keep this opportunistic so the profile build never hangs.
-    """
-    if not os.environ.get("ACCESS_TOKEN"):
-        return "refreshing", "pending", "pending"
-
+    """Returns total, added, and deleted lines across owned repositories."""
     repos = get_repositories()
     if not repos:
         return "refreshing", "pending", "pending"
 
     deadline = time.monotonic() + LOC_TIMEOUT_SECONDS
-    added = deleted = 0
-    processed = 0
+    commit_loc = get_commit_loc(repos, deadline)
+    if commit_loc:
+        added, deleted = commit_loc
+        return (f"{added + deleted:,}", f"+{added:,}", f"-{deleted:,}")
 
-    for repo in repos[:LOC_REPO_LIMIT]:
-        if time.monotonic() >= deadline:
-            print("LOC budget reached; finishing SVG without full LOC refresh.", flush=True)
-            break
+    current_total = get_current_loc(repos, deadline)
+    if current_total > 0:
+        return (f"{current_total:,}", "current", "indexed")
 
-        owner, name = repo.split("/")
-        print(f"LOC: checking {repo}", flush=True)
-        contributors = get_contributor_stats(owner, name)
-        if not contributors:
-            continue
-
-        processed += 1
-        for contrib in contributors:
-            author = contrib.get("author") or {}
-            if author.get("login") != USER_NAME:
-                continue
-            for week in contrib.get("weeks", []):
-                added += week.get("a", 0)
-                deleted += week.get("d", 0)
-
-    if processed == 0 or (added == 0 and deleted == 0):
-        return "refreshing", "pending", "pending"
-
-    total = added + deleted
-    return (f"{total:,}", f"+{added:,}", f"-{deleted:,}")
+    return "refreshing", "pending", "pending"
 
 
-def escape(value):
-    return (
+def escape(value):    return (
         str(value)
         .replace("&", "&amp;")
         .replace("<", "&lt;")
