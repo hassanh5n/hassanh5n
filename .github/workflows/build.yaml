@@ -37,10 +37,13 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Generate SVG profile
+        timeout-minutes: 2
         env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN || github.token }}
           USER_NAME: ${{ secrets.USER_NAME || github.repository_owner }}
-          BIRTHDAY: ${{ secrets.BIRTHDAY }}
+          BIRTHDAY: ${{ secrets.BIRTHDAY || '2004-02-19' }}
+          LOC_TIMEOUT_SECONDS: 15
+          LOC_REPO_LIMIT: 8
         run: python generate_profile.py
 
       - name: Publish generated SVGs

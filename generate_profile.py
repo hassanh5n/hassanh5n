@@ -20,8 +20,10 @@ from dateutil import relativedelta
 
 
 HEADERS = {"authorization": "token " + os.environ.get("ACCESS_TOKEN", "")}
-USER_NAME = os.environ.get("USER_NAME", "hassanh5n")
-BIRTHDAY = os.environ.get("BIRTHDAY", "2004-02-19")
+USER_NAME = os.environ.get("USER_NAME") or "hassanh5n"
+BIRTHDAY = os.environ.get("BIRTHDAY") or "2004-02-19"
+LOC_TIMEOUT_SECONDS = float(os.environ.get("LOC_TIMEOUT_SECONDS") or "15")
+LOC_REPO_LIMIT = int(os.environ.get("LOC_REPO_LIMIT") or "8")
 
 DEFAULT_STATS = {
     "repos": "25",
@@ -163,26 +165,25 @@ def get_repositories():
 
 
 def get_contributor_stats(owner, name):
+    """Return cached contributor stats without waiting for GitHub to compute them."""
     url = f"https://api.github.com/repos/{owner}/{name}/stats/contributors"
 
-    for attempt in range(5):
-        try:
-            r = requests.get(url, headers=HEADERS, timeout=20)
-        except requests.RequestException:
-            return None
-
-        if r.status_code == 200:
-            return r.json()
-        if r.status_code == 202:
-            time.sleep(2 + attempt)
-            continue
+    try:
+        r = requests.get(url, headers=HEADERS, timeout=6)
+    except requests.RequestException:
         return None
 
+    if r.status_code == 200:
+        return r.json()
     return None
 
 
 def get_loc():
-    """Returns total, added, and deleted lines across owned repositories."""
+    """Returns total, added, and deleted lines across owned repositories.
+
+    GitHub's contributor-stats endpoint is eventually computed and can return 202
+    for a long time. Keep this opportunistic so the profile build never hangs.
+    """
     if not os.environ.get("ACCESS_TOKEN"):
         return "refreshing", "pending", "pending"
 
@@ -190,11 +191,17 @@ def get_loc():
     if not repos:
         return "refreshing", "pending", "pending"
 
+    deadline = time.monotonic() + LOC_TIMEOUT_SECONDS
     added = deleted = 0
     processed = 0
 
-    for repo in repos:
+    for repo in repos[:LOC_REPO_LIMIT]:
+        if time.monotonic() >= deadline:
+            print("LOC budget reached; finishing SVG without full LOC refresh.", flush=True)
+            break
+
         owner, name = repo.split("/")
+        print(f"LOC: checking {repo}", flush=True)
         contributors = get_contributor_stats(owner, name)
         if not contributors:
             continue
@@ -208,7 +215,7 @@ def get_loc():
                 added += week.get("a", 0)
                 deleted += week.get("d", 0)
 
-    if processed == 0:
+    if processed == 0 or (added == 0 and deleted == 0):
         return "refreshing", "pending", "pending"
 
     total = added + deleted
@@ -428,14 +435,14 @@ def build_svg(dark, stats, loc_total, loc_add, loc_del, uptime):
 
 
 def main():
-    print("Fetching stats...")
+    print("Fetching stats...", flush=True)
     stats = get_user_stats()
     loc_t, loc_a, loc_d = get_loc()
     uptime = calc_uptime()
 
-    print(f"Stats: {stats}")
-    print(f"LOC: {loc_t} ({loc_a}, {loc_d})")
-    print(f"Uptime: {uptime}")
+    print(f"Stats: {stats}", flush=True)
+    print(f"LOC: {loc_t} ({loc_a}, {loc_d})", flush=True)
+    print(f"Uptime: {uptime}", flush=True)
 
     dark_svg = build_svg(True, stats, loc_t, loc_a, loc_d, uptime)
     light_svg = build_svg(False, stats, loc_t, loc_a, loc_d, uptime)
@@ -445,7 +452,7 @@ def main():
     with open("light_mode.svg", "w", encoding="utf-8") as f:
         f.write(light_svg)
 
-    print("dark_mode.svg and light_mode.svg written.")
+    print("dark_mode.svg and light_mode.svg written.", flush=True)
 
 
 if __name__ == "__main__":
