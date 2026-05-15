@@ -1,80 +1,173 @@
-<svg width="638" height="460" viewBox="0 0 638 460" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <rect width="638" height="460" fill="#0d1117" rx="8"/>
-  <rect width="638" height="460" fill="none" stroke="#30363d" stroke-width="1" rx="8"/>
-  <text x="18" y="24.1" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">                ::::-:::=::-++--::::.::           </text>
-  <text x="18" y="30.200000000000003" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">              :.::::::::+-=-:+--::.:-::.:         </text>
-  <text x="18" y="36.3" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">              :.:..:::::=+::::-::::.:::::         </text>
-  <text x="18" y="42.4" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">             :.:.::.:::::--*=:=:.::=:::::         </text>
-  <text x="18" y="48.5" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">             ::.::::::::::::::::.:.::::::         </text>
-  <text x="18" y="54.6" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">             :..:::::::=:::::::::::::*-:::        </text>
-  <text x="18" y="60.699999999999996" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">             .:::-:===:=-:::##****=::-:..         </text>
-  <text x="18" y="66.8" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">             :.:.:::-==+*%%%%%%%##*+--:.:         </text>
-  <text x="18" y="72.9" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">           +*-:::-:-+#%#%%@@@%%%%#**+=::          </text>
-  <text x="18" y="79.0" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">           #*%::+**#%#*%%@@@@@%%%##**+:           </text>
-  <text x="18" y="85.1" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">           *%@=-:##=##%%#+#%%@%%%##**+ :          </text>
-  <text x="18" y="91.19999999999999" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">           ##%=+##::*+**=::#%#***##*=:  :         </text>
-  <text x="18" y="97.29999999999998" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">            *@=+*#%%%%%##%*-%%-#***-+=--:         </text>
-  <text x="18" y="103.4" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">       :::::::=+*#%%@@@%%#@%%#+#####*             </text>
-  <text x="18" y="109.5" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">:::::::::::::-=+*#%@*%%##*%@@%*%%%%#+             </text>
-  <text x="18" y="115.6" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">::::::::::::-=:=*##%%%%%%%%*#**#%*=*-:            </text>
-  <text x="18" y="121.69999999999999" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">::::::::::::=+*-+*#%##*%%%*%*+#*##*::::::.        </text>
-  <text x="18" y="127.79999999999998" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">:::::::::::::+**-+*###%%#@%**+*##*:::::::::::     </text>
-  <text x="18" y="133.9" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">:::.:::::::::*****-**#####*##***=:::::::::::::    </text>
-  <text x="18" y="140.0" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">:::::::::::::=*****-=*##%%%#**+::::::::::::::::   </text>
-  <text x="18" y="146.1" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">::::::::::::::******++:=+****:::::::::::::::::::  </text>
-  <text x="18" y="152.2" font-family="'Courier New', Courier, monospace" font-size="5.0" fill="#3fb950" xml:space="preserve" letter-spacing="0">::::::::::::::-*++****+++=+:::::::::::::::::::::: </text>
-  <text x="176" y="33.5" font-family="'Courier New', Courier, monospace" font-size="12.5" fill="#79c0ff" font-weight="700">hassan@h5n</text>
-  <text x="251.0" y="33.5" font-family="'Courier New', Courier, monospace" font-size="12.5" fill="#8b949e"> ──────────────────────────────────────────</text>
-  <text x="176" y="55.2" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  OS</text>
-  <text x="203.68" y="55.2" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.............................</text>
-  <text x="447.0" y="55.2" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >Linux · Windows · Android</text>
-  <text x="176" y="70.7" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Uptime</text>
-  <text x="231.36" y="70.7" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">........................</text>
-  <text x="433.15999999999997" y="70.7" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >22 years, 2 months, 26 days</text>
-  <text x="176" y="86.2" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Kernel</text>
-  <text x="231.36" y="86.2" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">...................</text>
-  <text x="398.56" y="86.2" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >DevOps · Cloud · AI/ML · Systems</text>
-  <text x="176" y="101.7" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  IDE</text>
-  <text x="210.6" y="101.7" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">............................</text>
-  <text x="440.08000000000004" y="101.7" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >VSCode · Neovim · IntelliJ</text>
-  <text x="176" y="126.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Lang.Code</text>
-  <text x="252.12" y="126.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.................</text>
-  <text x="398.56" y="126.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >Python · Go · C++ · Rust · JS/TS</text>
-  <text x="176" y="142.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Lang.Infra</text>
-  <text x="259.03999999999996" y="142.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.................</text>
-  <text x="405.48" y="142.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >Terraform · Docker · K8s · Bash</text>
-  <text x="176" y="157.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Cloud</text>
-  <text x="224.44" y="157.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">..................................</text>
-  <text x="502.36" y="157.5" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >AWS · GCP · Azure</text>
-  <text x="176" y="173.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Hobbies</text>
-  <text x="238.28" y="173.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">..................</text>
-  <text x="391.64" y="173.0" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >Building things · Breaking things</text>
-  <text x="176" y="197.8" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#ffa657" font-weight="600">- Projects ─────────────────────────────────────────────────────</text>
-  <text x="176" y="213.3" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#c9d1d9">  › hassanh5n</text>
-  <text x="265.96" y="213.3" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.........................</text>
-  <text x="488.52" y="213.3" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">This profile README</text>
-  <text x="176" y="238.10000000000002" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#ffa657" font-weight="600">- Contact ──────────────────────────────────────────────────────</text>
-  <text x="176" y="253.60000000000002" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  GitHub</text>
-  <text x="231.36" y="253.60000000000002" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">..............................</text>
-  <text x="481.6" y="253.60000000000002" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >github.com/hassanh5n</text>
-  <text x="176" y="269.1" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  LinkedIn</text>
-  <text x="245.2" y="269.1" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">........................</text>
-  <text x="447.0" y="269.1" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >linkedin.com/in/hassanh5n</text>
-  <text x="176" y="293.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#ffa657" font-weight="600">- GitHub Stats ─────────────────────────────────────────────────</text>
-  <text x="176" y="309.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Repos</text>
-  <text x="224.44" y="309.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">...............................</text>
-  <text x="481.6" y="309.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >25 (contributed: 25)</text>
-  <text x="176" y="324.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Stars</text>
-  <text x="224.44" y="324.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">................................................</text>
-  <text x="613.08" y="324.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >2</text>
-  <text x="176" y="340.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Commits</text>
-  <text x="238.28" y="340.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.............................................</text>
-  <text x="599.24" y="340.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >202</text>
-  <text x="176" y="355.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">  Followers</text>
-  <text x="252.12" y="355.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#8b949e">.............................................</text>
-  <text x="613.08" y="355.90000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#79c0ff" >9</text>
-  <text x="176" y="371.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#c9d1d9">  Lines of Code: 0 (</text>
-  <text x="321.32" y="371.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#3fb950">0++, </text>
-  <text x="355.92" y="371.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#f78166">0--</text>
-  <text x="376.68" y="371.40000000000003" font-family="'Courier New', Courier, monospace" font-size="11.5" fill="#c9d1d9">)</text>
+<svg width="960" height="540" viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg">
+  <rect width="960" height="540" fill="#050505" rx="8"/>
+  <rect x="0.5" y="0.5" width="959" height="539" fill="none" stroke="#202020" stroke-width="1" rx="8"/>
+  <text x="69.2" y="115.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">                ::::-:::=::-++--::::.::           </text>
+  <text x="69.2" y="130.5" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">              :.::::::::+-=-:+--::.:-::.:         </text>
+  <text x="69.2" y="145.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">              :.:..:::::=+::::-::::.:::::         </text>
+  <text x="69.2" y="160.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">             :.:.::.:::::--*=:=:.::=:::::         </text>
+  <text x="69.2" y="176.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">             ::.::::::::::::::::.:.::::::         </text>
+  <text x="69.2" y="191.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">             :..:::::::=:::::::::::::*-:::        </text>
+  <text x="69.2" y="206.5" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">             .:::-:===:=-:::##****=::-:..         </text>
+  <text x="69.2" y="221.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">             :.:.:::-==+*%%%%%%%##*+--:.:         </text>
+  <text x="69.2" y="236.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">           +*-:::-:-+#%#%%@@@%%%%#**+=::          </text>
+  <text x="69.2" y="252.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">           #*%::+**#%#*%%@@@@@%%%##**+:           </text>
+  <text x="69.2" y="267.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">           *%@=-:##=##%%#+#%%@%%%##**+ :          </text>
+  <text x="69.2" y="282.5" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">           ##%=+##::*+**=::#%#***##*=:  :         </text>
+  <text x="69.2" y="297.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">            *@=+*#%%%%%##%*-%%-#***-+=--:         </text>
+  <text x="69.2" y="312.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">       :::::::=+*#%%@@@%%#@%%#+#####*             </text>
+  <text x="69.2" y="328.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">:::::::::::::-=+*#%@*%%##*%@@%*%%%%#+             </text>
+  <text x="69.2" y="343.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">::::::::::::-=:=*##%%%%%%%%*#**#%*=*-:            </text>
+  <text x="69.2" y="358.5" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">::::::::::::=+*-+*#%##*%%%*%*+#*##*::::::.        </text>
+  <text x="69.2" y="373.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">:::::::::::::+**-+*###%%#@%**+*##*:::::::::::     </text>
+  <text x="69.2" y="388.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">:::.:::::::::*****-**#####*##***=:::::::::::::    </text>
+  <text x="69.2" y="404.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">:::::::::::::=*****-=*##%%%#**+::::::::::::::::   </text>
+  <text x="69.2" y="419.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">::::::::::::::******++:=+****:::::::::::::::::::  </text>
+  <text x="69.2" y="434.5" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f6f6f6" xml:space="preserve" letter-spacing="0">::::::::::::::-*++****+++=+:::::::::::::::::::::: </text>
+  <text x="492.0" y="42.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">01</text>
+  <text x="526.0" y="42.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#ffb86c" font-weight="600" xml:space="preserve">const </text>
+  <text x="569.5" y="42.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#8ab4f8" font-weight="700" xml:space="preserve">hassan</text>
+  <text x="613.0" y="42.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve"> = {</text>
+  <text x="492.0" y="64.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">02</text>
+  <text x="526.0" y="64.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f2f2f2" xml:space="preserve">  </text>
+  <text x="540.5" y="64.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#c792ea" font-weight="600" xml:space="preserve">os</text>
+  <text x="555.0" y="64.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">: </text>
+  <text x="569.5" y="64.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="576.8" y="64.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f1dca7" xml:space="preserve">Linux | Windows</text>
+  <text x="685.5" y="64.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="692.8" y="64.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">,</text>
+  <text x="492.0" y="80.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">03</text>
+  <text x="526.0" y="80.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f2f2f2" xml:space="preserve">  </text>
+  <text x="540.5" y="80.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#c792ea" font-weight="600" xml:space="preserve">uptime</text>
+  <text x="584.0" y="80.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">: </text>
+  <text x="598.5" y="80.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="605.8" y="80.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f1dca7" xml:space="preserve">22 years, 2 months, 26 days</text>
+  <text x="801.5" y="80.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="808.8" y="80.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">,</text>
+  <text x="492.0" y="96.5" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">04</text>
+  <text x="526.0" y="96.5" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f2f2f2" xml:space="preserve">  </text>
+  <text x="540.5" y="96.5" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#c792ea" font-weight="600" xml:space="preserve">focus</text>
+  <text x="576.8" y="96.5" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">: </text>
+  <text x="591.2" y="96.5" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="598.5" y="96.5" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f1dca7" xml:space="preserve">DevOps | Cloud | AI/ML | Systems</text>
+  <text x="830.5" y="96.5" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="837.8" y="96.5" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">,</text>
+  <text x="492.0" y="112.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">05</text>
+  <text x="526.0" y="112.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f2f2f2" xml:space="preserve">  </text>
+  <text x="540.5" y="112.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#c792ea" font-weight="600" xml:space="preserve">ide</text>
+  <text x="562.2" y="112.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">: </text>
+  <text x="576.8" y="112.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="584.0" y="112.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f1dca7" xml:space="preserve">VSCode | AntiGravity | Jupyter</text>
+  <text x="801.5" y="112.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="808.8" y="112.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">,</text>
+  <text x="492.0" y="135.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">06</text>
+  <text x="526.0" y="135.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f2f2f2" xml:space="preserve">  </text>
+  <text x="540.5" y="135.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#c792ea" font-weight="600" xml:space="preserve">code</text>
+  <text x="569.5" y="135.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">: </text>
+  <text x="584.0" y="135.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="591.2" y="135.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f1dca7" xml:space="preserve">Python | C/C++ | C#</text>
+  <text x="729.0" y="135.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="736.2" y="135.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">,</text>
+  <text x="492.0" y="151.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">07</text>
+  <text x="526.0" y="151.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f2f2f2" xml:space="preserve">  </text>
+  <text x="540.5" y="151.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#c792ea" font-weight="600" xml:space="preserve">cloud</text>
+  <text x="576.8" y="151.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">: </text>
+  <text x="591.2" y="151.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="598.5" y="151.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f1dca7" xml:space="preserve">Docker | CI/CD | AWS | Linux</text>
+  <text x="801.5" y="151.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="808.8" y="151.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">,</text>
+  <text x="492.0" y="166.8" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">08</text>
+  <text x="526.0" y="166.8" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f2f2f2" xml:space="preserve">  </text>
+  <text x="540.5" y="166.8" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#c792ea" font-weight="600" xml:space="preserve">data</text>
+  <text x="569.5" y="166.8" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">: </text>
+  <text x="584.0" y="166.8" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="591.2" y="166.8" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f1dca7" xml:space="preserve">MySQL | PostgreSQL | MongoDB</text>
+  <text x="794.2" y="166.8" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="801.5" y="166.8" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">,</text>
+  <text x="492.0" y="182.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">09</text>
+  <text x="526.0" y="182.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f2f2f2" xml:space="preserve">  </text>
+  <text x="540.5" y="182.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#c792ea" font-weight="600" xml:space="preserve">frameworks</text>
+  <text x="613.0" y="182.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">: </text>
+  <text x="627.5" y="182.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="634.8" y="182.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f1dca7" xml:space="preserve">Django | React | ASP.NET | Scikit-l...</text>
+  <text x="910.2" y="182.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="917.5" y="182.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">,</text>
+  <text x="492.0" y="198.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">10</text>
+  <text x="526.0" y="198.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f2f2f2" xml:space="preserve">  </text>
+  <text x="540.5" y="198.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#c792ea" font-weight="600" xml:space="preserve">hobbies</text>
+  <text x="591.2" y="198.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">: </text>
+  <text x="605.8" y="198.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="613.0" y="198.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f1dca7" xml:space="preserve">Building things | Breaking things</text>
+  <text x="852.2" y="198.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="859.5" y="198.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">,</text>
+  <text x="492.0" y="221.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">11</text>
+  <text x="526.0" y="221.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">  projects: [</text>
+  <text x="492.0" y="237.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">12</text>
+  <text x="526.0" y="237.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#777777" xml:space="preserve">    // </text>
+  <text x="576.8" y="237.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#8ab4f8" font-weight="600" xml:space="preserve">FAST-Transport</text>
+  <text x="678.2" y="237.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#777777" xml:space="preserve"> - </text>
+  <text x="700.0" y="237.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#777777" xml:space="preserve">Transport management sy...</text>
+  <text x="888.5" y="237.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">,</text>
+  <text x="492.0" y="252.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">13</text>
+  <text x="526.0" y="252.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#777777" xml:space="preserve">    // </text>
+  <text x="576.8" y="252.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#8ab4f8" font-weight="600" xml:space="preserve">E-Stocks</text>
+  <text x="634.8" y="252.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#777777" xml:space="preserve"> - </text>
+  <text x="656.5" y="252.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#777777" xml:space="preserve">Stock market simulation...</text>
+  <text x="845.0" y="252.9" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">,</text>
+  <text x="492.0" y="268.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">14</text>
+  <text x="526.0" y="268.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#777777" xml:space="preserve">    // </text>
+  <text x="576.8" y="268.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#8ab4f8" font-weight="600" xml:space="preserve">MultiThreaded-FD</text>
+  <text x="692.8" y="268.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#777777" xml:space="preserve"> - </text>
+  <text x="714.5" y="268.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#777777" xml:space="preserve">Efficient multithreaded...</text>
+  <text x="903.0" y="268.7" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve"></text>
+  <text x="492.0" y="284.5" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">15</text>
+  <text x="526.0" y="284.5" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">  ],</text>
+  <text x="492.0" y="307.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">16</text>
+  <text x="526.0" y="307.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f2f2f2" xml:space="preserve">  </text>
+  <text x="540.5" y="307.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#c792ea" font-weight="600" xml:space="preserve">github</text>
+  <text x="584.0" y="307.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">: </text>
+  <text x="598.5" y="307.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="605.8" y="307.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f1dca7" xml:space="preserve">github.com/hassanh5n</text>
+  <text x="750.8" y="307.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="758.0" y="307.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">,</text>
+  <text x="492.0" y="323.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">17</text>
+  <text x="526.0" y="323.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f2f2f2" xml:space="preserve">  </text>
+  <text x="540.5" y="323.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#c792ea" font-weight="600" xml:space="preserve">linkedin</text>
+  <text x="598.5" y="323.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">: </text>
+  <text x="613.0" y="323.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="620.2" y="323.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f1dca7" xml:space="preserve">linkedin.com/in/shaikh-hassan-nafees-...</text>
+  <text x="910.2" y="323.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="917.5" y="323.2" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">,</text>
+  <text x="492.0" y="339.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">18</text>
+  <text x="526.0" y="339.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f2f2f2" xml:space="preserve">  </text>
+  <text x="540.5" y="339.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#c792ea" font-weight="600" xml:space="preserve">email</text>
+  <text x="576.8" y="339.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">: </text>
+  <text x="591.2" y="339.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="598.5" y="339.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f1dca7" xml:space="preserve">hassannafees.hn@email.com</text>
+  <text x="779.8" y="339.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="787.0" y="339.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">,</text>
+  <text x="492.0" y="362.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">19</text>
+  <text x="526.0" y="362.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">  stats: { </text>
+  <text x="605.8" y="362.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#c792ea" font-weight="600" xml:space="preserve">repos</text>
+  <text x="642.0" y="362.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">: </text>
+  <text x="656.5" y="362.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f78c6c" font-weight="600" xml:space="preserve">25</text>
+  <text x="671.0" y="362.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">, </text>
+  <text x="685.5" y="362.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#c792ea" font-weight="600" xml:space="preserve">stars</text>
+  <text x="721.8" y="362.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">: </text>
+  <text x="736.2" y="362.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f78c6c" font-weight="600" xml:space="preserve">2</text>
+  <text x="743.5" y="362.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">, </text>
+  <text x="758.0" y="362.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#c792ea" font-weight="600" xml:space="preserve">commits</text>
+  <text x="808.8" y="362.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">: </text>
+  <text x="823.2" y="362.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f78c6c" font-weight="600" xml:space="preserve">202</text>
+  <text x="845.0" y="362.0" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve"> },</text>
+  <text x="492.0" y="377.8" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">20</text>
+  <text x="526.0" y="377.8" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">  followers: </text>
+  <text x="620.2" y="377.8" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f78c6c" font-weight="600" xml:space="preserve">9</text>
+  <text x="627.5" y="377.8" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">,</text>
+  <text x="492.0" y="393.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">21</text>
+  <text x="526.0" y="393.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">  loc: </text>
+  <text x="576.8" y="393.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="584.0" y="393.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#f1dca7" xml:space="preserve">refreshing (pending, pending)</text>
+  <text x="794.2" y="393.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">&quot;</text>
+  <text x="492.0" y="409.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#565656">22</text>
+  <text x="526.0" y="409.4" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="12.5" fill="#bbbbbb" xml:space="preserve">};</text>
 </svg>

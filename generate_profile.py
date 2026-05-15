@@ -6,79 +6,110 @@ Required GitHub Actions secrets:
   ACCESS_TOKEN  - Fine-grained PAT with read:followers, repos, commits
   USER_NAME     - your GitHub username (hassanh5n)
 
-Optional env vars (for customization):
-  BIRTHDAY      - e.g. "2002-01-15"  (YYYY-MM-DD)
+Optional env vars:
+  BIRTHDAY              - e.g. "2004-02-19" (YYYY-MM-DD)
+  PROFILE_COMMIT_EMAIL  - used by the workflow when publishing generated SVGs
 """
 
 import datetime
 import os
+import time
+
 import requests
 from dateutil import relativedelta
 
-# ── Config ────────────────────────────────────────────────────────────────────
-HEADERS     = {'authorization': 'token ' + os.environ.get('ACCESS_TOKEN', '')}
-USER_NAME   = os.environ.get('USER_NAME', 'hassanh5n')
-BIRTHDAY    = os.environ.get('BIRTHDAY', '2004-02-19') 
+
+HEADERS = {"authorization": "token " + os.environ.get("ACCESS_TOKEN", "")}
+USER_NAME = os.environ.get("USER_NAME", "hassanh5n")
+BIRTHDAY = os.environ.get("BIRTHDAY", "2004-02-19")
+
+DEFAULT_STATS = {
+    "repos": "25",
+    "stars": "2",
+    "commits": "202",
+    "followers": "9",
+}
 
 PROJECTS = [
-    ("FAST-Transport",  "https://github.com/hassanh5n/FAST-Transport",          "A Transport Management System for FAST NUCES"),
-    ("E-Stocks",  "https://github.com/hassanh5n/E-Stocks",          "Stock Market Simulation for Investors"),
-    ("MultiThreaded-FD",     "https://github.com/hassanh5n/MultiThreaded-File-Downloader",             "Download a File from Internet, Efficiently"),
+    (
+        "FAST-Transport",
+        "https://github.com/hassanh5n/FAST-Transport",
+        "Transport management system for FAST NUCES",
+    ),
+    (
+        "E-Stocks",
+        "https://github.com/hassanh5n/E-Stocks",
+        "Stock market simulation for investors",
+    ),
+    (
+        "MultiThreaded-FD",
+        "https://github.com/hassanh5n/MultiThreaded-File-Downloader",
+        "Efficient multithreaded file downloader",
+    ),
 ]
 
-# ── ASCII art (pre-rendered from photo) ───────────────────────────────────────
 ASCII_ART = [
-    '                ::::-:::=::-++--::::.::           ',
-    '              :.::::::::+-=-:+--::.:-::.:         ',
-    '              :.:..:::::=+::::-::::.:::::         ',
-    '             :.:.::.:::::--*=:=:.::=:::::         ',
-    '             ::.::::::::::::::::.:.::::::         ',
-    '             :..:::::::=:::::::::::::*-:::        ',
-    '             .:::-:===:=-:::##****=::-:..         ',
-    '             :.:.:::-==+*%%%%%%%##*+--:.:         ',
-    '           +*-:::-:-+#%#%%@@@%%%%#**+=::          ',
-    '           #*%::+**#%#*%%@@@@@%%%##**+:           ',
-    '           *%@=-:##=##%%#+#%%@%%%##**+ :          ',
-    '           ##%=+##::*+**=::#%#***##*=:  :         ',
-    '            *@=+*#%%%%%##%*-%%-#***-+=--:         ',
-    '       :::::::=+*#%%@@@%%#@%%#+#####*             ',
-    ':::::::::::::-=+*#%@*%%##*%@@%*%%%%#+             ',
-    '::::::::::::-=:=*##%%%%%%%%*#**#%*=*-:            ',
-    '::::::::::::=+*-+*#%##*%%%*%*+#*##*::::::.        ',
-    ':::::::::::::+**-+*###%%#@%**+*##*:::::::::::     ',
-    ':::.:::::::::*****-**#####*##***=:::::::::::::    ',
-    ':::::::::::::=*****-=*##%%%#**+::::::::::::::::   ',
-    '::::::::::::::******++:=+****:::::::::::::::::::  ',
-    '::::::::::::::-*++****+++=+:::::::::::::::::::::: ',
+    "                ::::-:::=::-++--::::.::           ",
+    "              :.::::::::+-=-:+--::.:-::.:         ",
+    "              :.:..:::::=+::::-::::.:::::         ",
+    "             :.:.::.:::::--*=:=:.::=:::::         ",
+    "             ::.::::::::::::::::.:.::::::         ",
+    "             :..:::::::=:::::::::::::*-:::        ",
+    "             .:::-:===:=-:::##****=::-:..         ",
+    "             :.:.:::-==+*%%%%%%%##*+--:.:         ",
+    "           +*-:::-:-+#%#%%@@@%%%%#**+=::          ",
+    "           #*%::+**#%#*%%@@@@@%%%##**+:           ",
+    "           *%@=-:##=##%%#+#%%@%%%##**+ :          ",
+    "           ##%=+##::*+**=::#%#***##*=:  :         ",
+    "            *@=+*#%%%%%##%*-%%-#***-+=--:         ",
+    "       :::::::=+*#%%@@@%%#@%%#+#####*             ",
+    ":::::::::::::-=+*#%@*%%##*%@@%*%%%%#+             ",
+    "::::::::::::-=:=*##%%%%%%%%*#**#%*=*-:            ",
+    "::::::::::::=+*-+*#%##*%%%*%*+#*##*::::::.        ",
+    ":::::::::::::+**-+*###%%#@%**+*##*:::::::::::     ",
+    ":::.:::::::::*****-**#####*##***=:::::::::::::    ",
+    ":::::::::::::=*****-=*##%%%#**+::::::::::::::::   ",
+    "::::::::::::::******++:=+****:::::::::::::::::::  ",
+    "::::::::::::::-*++****+++=+:::::::::::::::::::::: ",
 ]
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
+
 def fmt_plural(n):
-    return 's' if n != 1 else ''
+    return "s" if n != 1 else ""
+
 
 def calc_uptime():
     bday = datetime.datetime.strptime(BIRTHDAY, "%Y-%m-%d")
     d = relativedelta.relativedelta(datetime.datetime.today(), bday)
-    suffix = ' 🎂' if d.months == 0 and d.days == 0 else ''
-    return (f"{d.years} year{fmt_plural(d.years)}, "
-            f"{d.months} month{fmt_plural(d.months)}, "
-            f"{d.days} day{fmt_plural(d.days)}{suffix}")
+    suffix = " birthday" if d.months == 0 and d.days == 0 else ""
+    return (
+        f"{d.years} year{fmt_plural(d.years)}, "
+        f"{d.months} month{fmt_plural(d.months)}, "
+        f"{d.days} day{fmt_plural(d.days)}{suffix}"
+    )
+
 
 def gql(query, variables=None):
-    if not os.environ.get('ACCESS_TOKEN'):
+    if not os.environ.get("ACCESS_TOKEN"):
         return None
-    r = requests.post(
-        'https://api.github.com/graphql',
-        json={'query': query, 'variables': variables or {}},
-        headers=HEADERS,
-        timeout=30,
-    )
+
+    try:
+        r = requests.post(
+            "https://api.github.com/graphql",
+            json={"query": query, "variables": variables or {}},
+            headers=HEADERS,
+            timeout=30,
+        )
+    except requests.RequestException:
+        return None
+
     if r.status_code == 200:
         return r.json()
     return None
 
+
 def get_user_stats():
-    q = '''
+    q = """
     query($login: String!) {
       user(login: $login) {
         followers { totalCount }
@@ -90,22 +121,25 @@ def get_user_stats():
           contributionCalendar { totalContributions }
         }
       }
-    }'''
-    data = gql(q, {'login': USER_NAME})
-    if not data:
-        return {'repos': '??', 'stars': '??', 'commits': '??', 'followers': '??'}
-    u = data['data']['user']
-    stars = sum(r['stargazers']['totalCount'] for r in u['repositories']['nodes'])
+    }"""
+    data = gql(q, {"login": USER_NAME})
+    if not data or "errors" in data:
+        return DEFAULT_STATS.copy()
+
+    u = data["data"]["user"]
+    stars = sum(r["stargazers"]["totalCount"] for r in u["repositories"]["nodes"])
     return {
-        'repos':     u['repositories']['totalCount'],
-        'stars':     stars,
-        'commits':   u['contributionsCollection']['contributionCalendar']['totalContributions'],
-        'followers': u['followers']['totalCount'],
+        "repos": u["repositories"]["totalCount"],
+        "stars": stars,
+        "commits": u["contributionsCollection"]["contributionCalendar"][
+            "totalContributions"
+        ],
+        "followers": u["followers"]["totalCount"],
     }
 
-def get_loc():
-    """Returns (added, deleted) lines of code across all repos."""
-    q = '''
+
+def get_repositories():
+    q = """
     query($login: String!, $cursor: String) {
       user(login: $login) {
         repositories(ownerAffiliations: [OWNER], isFork: false, first: 100, after: $cursor) {
@@ -113,231 +147,306 @@ def get_loc():
           pageInfo { endCursor hasNextPage }
         }
       }
-    }'''
-    if not os.environ.get('ACCESS_TOKEN'):
-        return '??', '??', '??'
+    }"""
 
     repos, cursor = [], None
     while True:
-        data = gql(q, {'login': USER_NAME, 'cursor': cursor})
-        if not data:
+        data = gql(q, {"login": USER_NAME, "cursor": cursor})
+        if not data or "errors" in data:
             break
-        info = data['data']['user']['repositories']
-        repos.extend(e['node']['nameWithOwner'] for e in info['edges'])
-        if not info['pageInfo']['hasNextPage']:
+        info = data["data"]["user"]["repositories"]
+        repos.extend(e["node"]["nameWithOwner"] for e in info["edges"])
+        if not info["pageInfo"]["hasNextPage"]:
             break
-        cursor = info['pageInfo']['endCursor']
+        cursor = info["pageInfo"]["endCursor"]
+    return repos
+
+
+def get_contributor_stats(owner, name):
+    url = f"https://api.github.com/repos/{owner}/{name}/stats/contributors"
+
+    for attempt in range(5):
+        try:
+            r = requests.get(url, headers=HEADERS, timeout=20)
+        except requests.RequestException:
+            return None
+
+        if r.status_code == 200:
+            return r.json()
+        if r.status_code == 202:
+            time.sleep(2 + attempt)
+            continue
+        return None
+
+    return None
+
+
+def get_loc():
+    """Returns total, added, and deleted lines across owned repositories."""
+    if not os.environ.get("ACCESS_TOKEN"):
+        return "refreshing", "pending", "pending"
+
+    repos = get_repositories()
+    if not repos:
+        return "refreshing", "pending", "pending"
 
     added = deleted = 0
+    processed = 0
+
     for repo in repos:
-        owner, name = repo.split('/')
-        try:
-            r = requests.get(
-                f'https://api.github.com/repos/{owner}/{name}/stats/contributors',
-                headers=HEADERS, timeout=15,
-            )
-            if r.status_code == 200:
-                for contrib in r.json():
-                    if isinstance(contrib, dict) and contrib.get('author', {}).get('login') == USER_NAME:
-                        for week in contrib.get('weeks', []):
-                            added   += week.get('a', 0)
-                            deleted += week.get('d', 0)
-        except Exception:
-            pass
+        owner, name = repo.split("/")
+        contributors = get_contributor_stats(owner, name)
+        if not contributors:
+            continue
+
+        processed += 1
+        for contrib in contributors:
+            author = contrib.get("author") or {}
+            if author.get("login") != USER_NAME:
+                continue
+            for week in contrib.get("weeks", []):
+                added += week.get("a", 0)
+                deleted += week.get("d", 0)
+
+    if processed == 0:
+        return "refreshing", "pending", "pending"
 
     total = added + deleted
-    return (f"{total:,}", f"{added:,}++", f"{deleted:,}--")
+    return (f"{total:,}", f"+{added:,}", f"-{deleted:,}")
 
-# ── SVG builder ───────────────────────────────────────────────────────────────
-def escape(s):
-    return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
 
-def build_svg(dark: bool, stats: dict, loc_total: str, loc_add: str, loc_del: str, uptime: str) -> str:
-    # Theme colours
-    if dark:
-        bg        = '#0d1117'
-        fg        = '#c9d1d9'
-        dim       = '#8b949e'
-        accent1   = '#f78166'   # red-orange  (labels)
-        accent2   = '#79c0ff'   # blue        (values)
-        ascii_col = '#3fb950'   # green        (ASCII)
-        border    = '#30363d'
-        head_col  = '#ffa657'   # orange      (section headers)
-    else:
-        bg        = '#ffffff'
-        fg        = '#24292f'
-        dim       = '#57606a'
-        accent1   = '#cf222e'
-        accent2   = '#0969da'
-        ascii_col = '#1a7f37'
-        border    = '#d0d7de'
-        head_col  = '#953800'
-
-    font     = "font-family=\"'Courier New', Courier, monospace\""
-    fs       = 11.5        # info panel font-size px
-    lh       = 15.5        # info panel line height px
-    char_w   = 6.92        # info panel char width
-
-    # ASCII art uses its own smaller font — all characters kept, just rendered smaller
-    fs_ascii = 5.0         # ASCII font-size px  (143 chars * 3.01 = ~430px wide)
-    lh_ascii = 6.1         # ASCII line height px (68 lines * 6.1  = ~415px tall)
-    cw_ascii = 3.01        # char width at fs_ascii in Courier New
-
-    ascii_panel_w = int(max(len(l) for l in ASCII_ART) * cw_ascii) + 8
-    ascii_panel_h = int(len(ASCII_ART) * lh_ascii) + 8
-
-    W   = ascii_panel_w + 480
-    H   = max(ascii_panel_h + 36, 460)
-    pad = 18
-
-    info_x = ascii_panel_w + pad
-    info_w = W - info_x - pad
-
-    lines_svg = []
-
-    # ── background + border ──────────────────────────────────────────────────
-    lines_svg.append(f'<rect width="{W}" height="{H}" fill="{bg}" rx="8"/>')
-    lines_svg.append(f'<rect width="{W}" height="{H}" fill="none" stroke="{border}" stroke-width="1" rx="8"/>')
-
-    # ── ASCII art (full character resolution, smaller font) ───────────────────
-    for i, row in enumerate(ASCII_ART):
-        y = pad + lh_ascii + i * lh_ascii
-        lines_svg.append(
-            f'<text x="{pad}" y="{y}" {font} font-size="{fs_ascii}" '
-            f'fill="{ascii_col}" xml:space="preserve" letter-spacing="0">{escape(row)}</text>'
-        )
-
-    # ── info panel ───────────────────────────────────────────────────────────
-    def row(label, value, y, lcolor=accent1, vcolor=accent2, bold_val=False):
-        dots = '.' * max(1, int((info_w / char_w - len(label) - len(str(value)) - 2) * 0.9))
-        bw = 'font-weight="600"' if bold_val else ''
-        lines_svg.append(
-            f'<text x="{info_x}" y="{y}" {font} font-size="{fs}" fill="{lcolor}">{escape(label)}</text>'
-        )
-        lines_svg.append(
-            f'<text x="{info_x + len(label) * char_w}" y="{y}" {font} font-size="{fs}" fill="{dim}">{dots}</text>'
-        )
-        lines_svg.append(
-            f'<text x="{W - pad - len(str(value)) * char_w}" y="{y}" {font} font-size="{fs}" fill="{vcolor}" {bw}>{escape(str(value))}</text>'
-        )
-
-    def section_header(title, y):
-        bar = '─' * int((info_w / char_w - len(title) - 3))
-        lines_svg.append(
-            f'<text x="{info_x}" y="{y}" {font} font-size="{fs}" fill="{head_col}" font-weight="600">'
-            f'- {escape(title)} {escape(bar)}</text>'
-        )
-
-    def plain(text, y, color=None):
-        c = color or fg
-        lines_svg.append(
-            f'<text x="{info_x}" y="{y}" {font} font-size="{fs}" fill="{c}" xml:space="preserve">{escape(text)}</text>'
-        )
-
-    y = pad + lh
-
-    # prompt line
-    lines_svg.append(
-        f'<text x="{info_x}" y="{y}" {font} font-size="{fs + 1}" fill="{accent2}" font-weight="700">'
-        f'hassan@h5n</text>'
-    )
-    lines_svg.append(
-        f'<text x="{info_x + 10 * (fs + 1) * 0.6}" y="{y}" {font} font-size="{fs + 1}" fill="{dim}">'
-        f' {"─" * 42}</text>'
-    )
-
-    y += lh * 1.4
-    row('  OS',       'Linux · Windows',       y);   y += lh
-    row('  Uptime',   uptime,                            y);   y += lh
-    row('  Kernel',   'DevOps · Cloud · AI/ML · Systems', y);  y += lh
-    row('  IDE',      'VSCode · AntiGravity · Jupyter',      y);   y += lh
-
-    y += lh * 0.6
-    row('  Lang.Code',  'Python · C/C++ · C#',  y); y += lh
-    row('  DevOps.Cloud', 'Docker · CI/CD · AWS · Linux',   y); y += lh
-    row('  Data.Bases',      'MySQL · PostgreSQL · MongoDB',                  y); y += lh
-    row('  Frameworks', 'Django · React · ASP .NET · Scikit-learn', y); y += lh
-    row('  Hobbies',    'Building things · Breaking things',  y); y += lh
-
-    y += lh * 0.6
-    section_header('Projects', y); y += lh
-
-    # dynamic project list
-    MAX_PROJ = 5
-    for (pname, purl, pdesc) in PROJECTS[:MAX_PROJ]:
-        label = f'  › {pname}'
-        desc_short = pdesc[:38]
-        dots = '.' * max(1, int((info_w / char_w - len(label) - len(desc_short) - 2) * 0.85))
-        lines_svg.append(
-            f'<text x="{info_x}" y="{y}" {font} font-size="{fs}" fill="{fg}">{escape(label)}</text>'
-        )
-        lines_svg.append(
-            f'<text x="{info_x + len(label) * char_w}" y="{y}" {font} font-size="{fs}" fill="{dim}">{dots}</text>'
-        )
-        lines_svg.append(
-            f'<text x="{W - pad - len(desc_short) * char_w}" y="{y}" {font} font-size="{fs}" fill="{dim}">{escape(desc_short)}</text>'
-        )
-        y += lh
-
-    y += lh * 0.6
-    section_header('Contact', y); y += lh
-    row('  GitHub',   'github.com/hassanh5n',      y, vcolor=accent2); y += lh
-    row('  LinkedIn', 'linkedin.com/in/shaikh-hassan-nafees-640998227', y, vcolor=accent2); y += lh
-    row('  Email', 'hassannafees.hn@email.com',             y, vcolor=accent2); y += lh
-
-    y += lh * 0.6
-    section_header('GitHub Stats', y); y += lh
-    row('  Repos',    f"{stats['repos']} (contributed: {stats['repos']})",  y); y += lh
-    row('  Stars',    stats['stars'],     y); y += lh
-    row('  Commits',  stats['commits'],   y); y += lh
-    row('  Followers',stats['followers'], y); y += lh
-
-    if loc_total != '??':
-        lines_svg.append(
-            f'<text x="{info_x}" y="{y}" {font} font-size="{fs}" fill="{fg}">  Lines of Code: {escape(loc_total)}'
-            f' (</text>'
-        )
-        # green additions
-        off = info_x + (18 + len(loc_total) + 2) * char_w
-        lines_svg.append(
-            f'<text x="{off}" y="{y}" {font} font-size="{fs}" fill="#3fb950">{escape(loc_add)}, </text>'
-        )
-        off2 = off + (len(loc_add) + 2) * char_w
-        lines_svg.append(
-            f'<text x="{off2}" y="{y}" {font} font-size="{fs}" fill="{accent1}">{escape(loc_del)}</text>'
-        )
-        off3 = off2 + len(loc_del) * char_w
-        lines_svg.append(
-            f'<text x="{off3}" y="{y}" {font} font-size="{fs}" fill="{fg}">)</text>'
-        )
-
-    inner = '\n  '.join(lines_svg)
+def escape(value):
     return (
-        f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" '
-        f'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">\n'
-        f'  {inner}\n'
-        f'</svg>\n'
+        str(value)
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace('"', "&quot;")
     )
 
-# ── Main ──────────────────────────────────────────────────────────────────────
+
+def trim(value, limit):
+    value = str(value)
+    if len(value) <= limit:
+        return value
+    return value[: max(0, limit - 3)] + "..."
+
+
+def build_svg(dark, stats, loc_total, loc_add, loc_del, uptime):
+    if dark:
+        theme = {
+            "bg": "#050505",
+            "border": "#202020",
+            "fg": "#f2f2f2",
+            "muted": "#777777",
+            "line": "#565656",
+            "keyword": "#ffb86c",
+            "name": "#8ab4f8",
+            "key": "#c792ea",
+            "string": "#f1dca7",
+            "number": "#f78c6c",
+            "punct": "#bbbbbb",
+            "ascii": "#f6f6f6",
+        }
+    else:
+        theme = {
+            "bg": "#ffffff",
+            "border": "#d9d9d9",
+            "fg": "#151515",
+            "muted": "#777777",
+            "line": "#a0a0a0",
+            "keyword": "#8a4b08",
+            "name": "#005f87",
+            "key": "#6f3fa0",
+            "string": "#744f00",
+            "number": "#9a3412",
+            "punct": "#404040",
+            "ascii": "#111111",
+        }
+
+    width = 960
+    height = 540
+    pad = 28
+    gutter = 24
+    half = (width - (pad * 2) - gutter) / 2
+    left_x = pad
+    right_x = pad + half + gutter
+    right_w = width - right_x - pad
+
+    font = 'font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace"'
+    ascii_fs = 12.5
+    ascii_lh = 15.2
+    ascii_cw = 7.15
+    code_fs = 12.5
+    code_lh = 15.8
+    code_cw = 7.25
+    max_code_chars = int((right_w - 34) / code_cw)
+
+    lines = [
+        f'<rect width="{width}" height="{height}" fill="{theme["bg"]}" rx="8"/>',
+        (
+            f'<rect x="0.5" y="0.5" width="{width - 1}" height="{height - 1}" '
+            f'fill="none" stroke="{theme["border"]}" stroke-width="1" rx="8"/>'
+        ),
+    ]
+
+    art_width = max(len(row) for row in ASCII_ART) * ascii_cw
+    art_height = len(ASCII_ART) * ascii_lh
+    art_x = left_x + max(0, (half - art_width) / 2)
+    art_y = (height - art_height) / 2 + ascii_fs
+
+    for i, row in enumerate(ASCII_ART):
+        y = art_y + i * ascii_lh
+        lines.append(
+            f'<text x="{art_x:.1f}" y="{y:.1f}" {font} font-size="{ascii_fs}" '
+            f'fill="{theme["ascii"]}" xml:space="preserve" letter-spacing="0">'
+            f'{escape(row)}</text>'
+        )
+
+    line_no_x = right_x
+    code_x = right_x + 34
+    y = 42
+    line_no = 1
+
+    def add_code(parts):
+        nonlocal y, line_no
+        lines.append(
+            f'<text x="{line_no_x:.1f}" y="{y:.1f}" {font} font-size="{code_fs}" '
+            f'fill="{theme["line"]}">{line_no:02}</text>'
+        )
+        x = code_x
+        for text, color, weight in parts:
+            weight_attr = f' font-weight="{weight}"' if weight else ""
+            lines.append(
+                f'<text x="{x:.1f}" y="{y:.1f}" {font} font-size="{code_fs}" '
+                f'fill="{color}"{weight_attr} xml:space="preserve">{escape(text)}</text>'
+            )
+            x += len(text) * code_cw
+        y += code_lh
+        line_no += 1
+
+    def add_gap(size=0.45):
+        nonlocal y
+        y += code_lh * size
+
+    def add_kv(key, value, comma=True):
+        value_limit = max(14, max_code_chars - len(key) - 8)
+        value = trim(value, value_limit)
+        add_code(
+            [
+                ("  ", theme["fg"], None),
+                (f"{key}", theme["key"], "600"),
+                (": ", theme["punct"], None),
+                ('"', theme["punct"], None),
+                (value, theme["string"], None),
+                ('"', theme["punct"], None),
+                ("," if comma else "", theme["punct"], None),
+            ]
+        )
+
+    def add_project(name, desc, comma=True):
+        max_desc = max(16, max_code_chars - 30)
+        add_code(
+            [
+                ("    // ", theme["muted"], None),
+                (trim(name, 18), theme["name"], "600"),
+                (" - ", theme["muted"], None),
+                (trim(desc, max_desc), theme["muted"], None),
+                ("," if comma else "", theme["punct"], None),
+            ]
+        )
+
+    add_code(
+        [
+            ("const ", theme["keyword"], "600"),
+            ("hassan", theme["name"], "700"),
+            (" = {", theme["punct"], None),
+        ]
+    )
+    add_gap()
+    add_kv("os", "Linux | Windows")
+    add_kv("uptime", uptime)
+    add_kv("focus", "DevOps | Cloud | AI/ML | Systems")
+    add_kv("ide", "VSCode | AntiGravity | Jupyter")
+    add_gap()
+    add_kv("code", "Python | C/C++ | C#")
+    add_kv("cloud", "Docker | CI/CD | AWS | Linux")
+    add_kv("data", "MySQL | PostgreSQL | MongoDB")
+    add_kv("frameworks", "Django | React | ASP.NET | Scikit-learn")
+    add_kv("hobbies", "Building things | Breaking things")
+    add_gap()
+    add_code([("  projects: [", theme["punct"], None)])
+    for idx, (name, _url, desc) in enumerate(PROJECTS):
+        add_project(name, desc, comma=idx < len(PROJECTS) - 1)
+    add_code([("  ],", theme["punct"], None)])
+    add_gap()
+    add_kv("github", "github.com/hassanh5n")
+    add_kv("linkedin", "linkedin.com/in/shaikh-hassan-nafees-640998227")
+    add_kv("email", "hassannafees.hn@email.com")
+    add_gap()
+    add_code(
+        [
+            ("  stats: { ", theme["punct"], None),
+            ("repos", theme["key"], "600"),
+            (": ", theme["punct"], None),
+            (str(stats["repos"]), theme["number"], "600"),
+            (", ", theme["punct"], None),
+            ("stars", theme["key"], "600"),
+            (": ", theme["punct"], None),
+            (str(stats["stars"]), theme["number"], "600"),
+            (", ", theme["punct"], None),
+            ("commits", theme["key"], "600"),
+            (": ", theme["punct"], None),
+            (str(stats["commits"]), theme["number"], "600"),
+            (" },", theme["punct"], None),
+        ]
+    )
+    add_code(
+        [
+            ("  followers: ", theme["punct"], None),
+            (str(stats["followers"]), theme["number"], "600"),
+            (",", theme["punct"], None),
+        ]
+    )
+    add_code(
+        [
+            ("  loc: ", theme["punct"], None),
+            ('"', theme["punct"], None),
+            (trim(f"{loc_total} ({loc_add}, {loc_del})", max_code_chars - 10), theme["string"], None),
+            ('"', theme["punct"], None),
+        ]
+    )
+    add_code([("};", theme["punct"], None)])
+
+    inner = "\n  ".join(lines)
+    return (
+        f'<svg width="{width}" height="{height}" viewBox="0 0 {width} {height}" '
+        'xmlns="http://www.w3.org/2000/svg">\n'
+        f'  {inner}\n'
+        '</svg>\n'
+    )
+
+
 def main():
-    print("Fetching stats…")
-    stats     = get_user_stats()
+    print("Fetching stats...")
+    stats = get_user_stats()
     loc_t, loc_a, loc_d = get_loc()
-    uptime    = calc_uptime()
+    uptime = calc_uptime()
 
     print(f"Stats: {stats}")
+    print(f"LOC: {loc_t} ({loc_a}, {loc_d})")
     print(f"Uptime: {uptime}")
 
-    dark_svg  = build_svg(True,  stats, loc_t, loc_a, loc_d, uptime)
+    dark_svg = build_svg(True, stats, loc_t, loc_a, loc_d, uptime)
     light_svg = build_svg(False, stats, loc_t, loc_a, loc_d, uptime)
 
-    with open('dark_mode.svg',  'w', encoding='utf-8') as f:
+    with open("dark_mode.svg", "w", encoding="utf-8") as f:
         f.write(dark_svg)
-    with open('light_mode.svg', 'w', encoding='utf-8') as f:
+    with open("light_mode.svg", "w", encoding="utf-8") as f:
         f.write(light_svg)
 
-    print("✅  dark_mode.svg  and  light_mode.svg  written.")
+    print("dark_mode.svg and light_mode.svg written.")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
