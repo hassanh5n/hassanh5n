@@ -11,7 +11,7 @@ BIRTHDAY    = os.environ.get('BIRTHDAY', '2004-02-19')   # ← SET YOUR BIRTHDAY
 PROJECTS = [
     ("FAST-Transport",  "https://github.com/hassanh5n/FAST-Transport",          "A Transport Management System for FAST NUCES"),
     ("E-Stocks",  "https://github.com/hassanh5n/E-Stocks",          "Stock Market Simulation for Investors and Public"),
-    ("MultiThreaded-File-Downloader",     "https://github.com/hassanh5n/MultiThreaded-File-Downloader",             "A system that download a file from the internet, efficiently"),
+    ("MultiThreaded-FD",     "https://github.com/hassanh5n/MultiThreaded-File-Downloader",             "A system that download a file from the internet, efficiently"),
 ]
 
 # ── ASCII art (pre-rendered from photo) ───────────────────────────────────────
