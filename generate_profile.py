@@ -28,10 +28,6 @@ TOKEN = (os.environ.get("ACCESS_TOKEN") or "").strip()
 HEADERS = {"Authorization": f"Bearer {TOKEN}"} if TOKEN else {}
 USER_NAME = os.environ.get("USER_NAME") or "hassanh5n"
 BIRTHDAY = os.environ.get("BIRTHDAY") or "2004-02-19"
-LOC_TIMEOUT_SECONDS = float(os.environ.get("LOC_TIMEOUT_SECONDS") or "15")
-LOC_REPO_LIMIT = int(os.environ.get("LOC_REPO_LIMIT") or "8")
-LOC_COMMITS_PER_REPO = int(os.environ.get("LOC_COMMITS_PER_REPO") or "12")
-LOC_FILE_LIMIT = int(os.environ.get("LOC_FILE_LIMIT") or "180")
 ASSET_DIR = Path(__file__).resolve().parent / "assets"
 ASCII_ART_IMAGE = ASSET_DIR / "ascii-art.png"
 
@@ -130,7 +126,7 @@ def get_user_stats():
           nodes { stargazers { totalCount } }
         }
         contributionsCollection {
-          contributionCalendar { totalContributions }
+          totalCommitContributions
         }
       }
     }"""
@@ -143,9 +139,8 @@ def get_user_stats():
     return {
         "repos": u["repositories"]["totalCount"],
         "stars": stars,
-        "commits": u["contributionsCollection"]["contributionCalendar"][
-            "totalContributions"
-        ],
+        # totalCommitContributions counts only commits, not PRs/issues/reviews
+        "commits": u["contributionsCollection"]["totalCommitContributions"],
         "followers": u["followers"]["totalCount"],
     }
 
@@ -206,135 +201,87 @@ def get_repositories():
     return repos or get_public_repositories()
 
 
-def get_commit_loc(repos, deadline):
-    added = deleted = commit_count = 0
+def get_contributor_stats(repo, retries=4, delay=4):
+    """
+    Fetch total additions/deletions for USER_NAME in a repo using GitHub's
+    pre-computed contributor stats endpoint. One call per repo covers the
+    repo's entire commit history — no sampling, no per-commit requests.
 
-    for repo in repos[:LOC_REPO_LIMIT]:
-        if time.monotonic() >= deadline:
-            break
+    GitHub returns 202 when it is (re)computing the stats; we retry with a
+    short sleep until the data is ready or retries are exhausted.
+    """
+    url = f"https://api.github.com/repos/{repo}/stats/contributors"
+    login_lower = USER_NAME.lower()
 
-        print(f"LOC commits: checking {repo}", flush=True)
-        commits = request_json(
-            f"https://api.github.com/repos/{repo}/commits",
-            params={"author": USER_NAME, "per_page": LOC_COMMITS_PER_REPO},
-            timeout=8,
-        )
-        if not isinstance(commits, list):
-            continue
-
-        for commit in commits:
-            if time.monotonic() >= deadline:
-                break
-
-            sha = commit.get("sha")
-            if not sha:
-                continue
-
-            detail = request_json(
-                f"https://api.github.com/repos/{repo}/commits/{sha}",
-                timeout=8,
-            )
-            stats = (detail or {}).get("stats") or {}
-            if not stats:
-                continue
-
-            added += stats.get("additions", 0)
-            deleted += stats.get("deletions", 0)
-            commit_count += 1
-
-    if commit_count == 0 or (added == 0 and deleted == 0):
-        return None
-    return added, deleted
-
-
-CODE_EXTENSIONS = {
-    ".py", ".js", ".jsx", ".ts", ".tsx", ".java", ".c", ".cpp", ".h", ".hpp",
-    ".cs", ".go", ".rs", ".php", ".rb", ".swift", ".kt", ".kts", ".html",
-    ".css", ".scss", ".sql", ".sh", ".ps1", ".yaml", ".yml", ".json", ".md",
-}
-SKIP_PATH_PARTS = {
-    ".git", ".github", "node_modules", "vendor", "dist", "build", "target", "bin",
-    "obj", "__pycache__", ".venv", "venv", "cache",
-}
-
-
-def should_count_path(path, size):
-    if size > 220_000:
-        return False
-    parts = set(path.replace("\\", "/").split("/"))
-    if parts & SKIP_PATH_PARTS:
-        return False
-    _, ext = os.path.splitext(path.lower())
-    return ext in CODE_EXTENSIONS
-
-
-def count_current_repo_lines(repo, deadline):
-    meta = request_json(f"https://api.github.com/repos/{repo}", timeout=8)
-    if not meta:
-        return 0
-
-    branch = meta.get("default_branch") or "main"
-    tree = request_json(
-        f"https://api.github.com/repos/{repo}/git/trees/{quote(branch, safe='')}",
-        params={"recursive": "1"},
-        timeout=10,
-    )
-    entries = (tree or {}).get("tree") or []
-    total = 0
-    files_seen = 0
-
-    for entry in entries:
-        if time.monotonic() >= deadline or files_seen >= LOC_FILE_LIMIT:
-            break
-        if entry.get("type") != "blob":
-            continue
-
-        path = entry.get("path") or ""
-        if not should_count_path(path, entry.get("size") or 0):
-            continue
-
-        raw_url = f"https://raw.githubusercontent.com/{repo}/{quote(branch, safe='')}/{quote(path)}"
+    for attempt in range(retries):
         try:
-            r = requests.get(raw_url, headers=HEADERS, timeout=5)
+            r = requests.get(url, headers=HEADERS, timeout=12)
         except requests.RequestException:
+            return 0, 0
+
+        if r.status_code == 202:
+            # GitHub is still computing; wait and retry
+            print(f"  LOC: {repo} stats pending (attempt {attempt + 1}/{retries}), waiting {delay}s…", flush=True)
+            time.sleep(delay)
             continue
-        if r.status_code != 200 or "\0" in r.text:
-            continue
 
-        text = r.text
-        total += text.count("\n") + (1 if text and not text.endswith("\n") else 0)
-        files_seen += 1
+        if r.status_code == 204:
+            # Empty repo — no commits at all
+            return 0, 0
 
-    return total
+        if r.status_code != 200:
+            return 0, 0
 
+        data = r.json()
+        if not isinstance(data, list):
+            return 0, 0
 
-def get_current_loc(repos, deadline):
-    total = 0
-    for repo in repos[:LOC_REPO_LIMIT]:
-        if time.monotonic() >= deadline:
-            break
-        print(f"LOC files: checking {repo}", flush=True)
-        total += count_current_repo_lines(repo, deadline)
-    return total
+        for contributor in data:
+            author = contributor.get("author") or {}
+            if (author.get("login") or "").lower() == login_lower:
+                added   = sum(w.get("a", 0) for w in contributor.get("weeks", []))
+                deleted = sum(w.get("d", 0) for w in contributor.get("weeks", []))
+                return added, deleted
+
+        # User has no commits in this repo
+        return 0, 0
+
+    # Retries exhausted (still 202)
+    print(f"  LOC: {repo} stats not ready after {retries} attempts, skipping.", flush=True)
+    return 0, 0
 
 
 def get_loc():
-    """Returns total, added, and deleted lines across owned repositories."""
+    """
+    Returns (total_str, added_str, deleted_str) representing lines of code
+    the user has committed across all owned repositories, using GitHub's
+    contributor stats API (full history, no sampling).
+    """
     repos = get_repositories()
     if not repos:
         return "refreshing", "pending", "pending"
 
-    deadline = time.monotonic() + LOC_TIMEOUT_SECONDS
-    commit_loc = get_commit_loc(repos, deadline)
-    if commit_loc:
-        added, deleted = commit_loc
-        return (f"{added + deleted:,}", f"+{added:,}", f"-{deleted:,}")
+    total_added = 0
+    total_deleted = 0
+    found_any = False
 
-    current_total = get_current_loc(repos, deadline)
-    if current_total > 0:
-        return (f"{current_total:,}", "current", "indexed")
+    for repo in repos:
+        print(f"LOC: checking {repo}", flush=True)
+        added, deleted = get_contributor_stats(repo)
+        if added > 0 or deleted > 0:
+            total_added += added
+            total_deleted += deleted
+            found_any = True
 
-    return "refreshing", "pending", "pending"
+    if not found_any:
+        return "refreshing", "pending", "pending"
+
+    total = total_added + total_deleted
+    return (
+        f"{total:,}",
+        f"+{total_added:,}",
+        f"-{total_deleted:,}",
+    )
 
 
 def escape(value):
@@ -353,6 +300,7 @@ def trim(value, limit):
         return value
     return value[: max(0, limit - 3)] + "..."
 
+
 def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip("#")
     return tuple(int(hex_color[i : i + 2], 16) for i in (0, 2, 4))
@@ -366,7 +314,6 @@ def ascii_image_data_uri(color):
         source = source.convert("RGBA")
         gray = ImageOps.grayscale(source)
 
-        # Treat the white screenshot background as transparent and keep the ASCII ink.
         ink_mask = gray.point(lambda p: 255 if p < 245 else 0)
         bbox = ink_mask.getbbox()
         if bbox:
@@ -387,18 +334,32 @@ def ascii_image_data_uri(color):
         "height": rendered.height,
     }
 
+
 def build_svg(dark, stats, loc_total, loc_add, loc_del, uptime):
-    theme = {
-        "card": "#161b22",
-        "border": "#21262d",
-        "fg": "#e6edf3",
-        "muted": "#60758a",
-        "label": "#ff8f40",
-        "value": "#8cc8ff",
-        "ascii": "#f0f6fc",
-        "green": "#3fb950",
-        "red": "#ff6b6b",
-    }
+    if dark:
+        theme = {
+            "card":   "#161b22",
+            "border": "#21262d",
+            "fg":     "#e6edf3",
+            "muted":  "#60758a",
+            "label":  "#ff8f40",
+            "value":  "#8cc8ff",
+            "ascii":  "#f0f6fc",
+            "green":  "#3fb950",
+            "red":    "#ff6b6b",
+        }
+    else:
+        theme = {
+            "card":   "#ffffff",
+            "border": "#d0d7de",
+            "fg":     "#24292f",
+            "muted":  "#57606a",
+            "label":  "#953800",
+            "value":  "#0550ae",
+            "ascii":  "#24292f",
+            "green":  "#1a7f37",
+            "red":    "#cf222e",
+        }
 
     width = 1500
     height = 760
@@ -556,6 +517,7 @@ def build_svg(dark, stats, loc_total, loc_add, loc_del, uptime):
         '</svg>\n'
     )
 
+
 def main():
     print("Fetching stats...", flush=True)
     stats = get_user_stats()
@@ -566,10 +528,10 @@ def main():
     print(f"LOC: {loc_t} ({loc_a}, {loc_d})", flush=True)
     print(f"Uptime: {uptime}", flush=True)
 
-    dark_svg = build_svg(True, stats, loc_t, loc_a, loc_d, uptime)
+    dark_svg  = build_svg(True,  stats, loc_t, loc_a, loc_d, uptime)
     light_svg = build_svg(False, stats, loc_t, loc_a, loc_d, uptime)
 
-    with open("dark_mode.svg", "w", encoding="utf-8") as f:
+    with open("dark_mode.svg",  "w", encoding="utf-8") as f:
         f.write(dark_svg)
     with open("light_mode.svg", "w", encoding="utf-8") as f:
         f.write(light_svg)
