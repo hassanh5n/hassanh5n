@@ -549,7 +549,7 @@ def build_svg(dark, stats, loc_total, loc_add, loc_del, uptime):
             text_node(right_edge - len(value) * info_cw, y, value, theme["value"], weight="600")
             return
 
-        value = f"{loc_total} ( {loc_add}, {loc_del} )"
+        value = f"{loc_total} ( {loc_add} , {loc_del} )"
         value_x = right_edge - len(value) * info_cw
         text_node(value_x, y, loc_total, theme["value"], weight="600")
         x = value_x + len(loc_total) * info_cw
