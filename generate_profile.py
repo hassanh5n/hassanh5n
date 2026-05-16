@@ -117,30 +117,54 @@ def gql(query, variables=None):
 
 
 def get_user_stats():
-    q = """
+    # Step 1: account metadata — creation year, repos, stars, followers
+    meta_q = """
     query($login: String!) {
       user(login: $login) {
+        createdAt
         followers { totalCount }
         repositories(ownerAffiliations: [OWNER], isFork: false, first: 100) {
           totalCount
           nodes { stargazers { totalCount } }
         }
-        contributionsCollection {
+      }
+    }"""
+    meta = gql(meta_q, {"login": USER_NAME})
+    if not meta or "errors" in meta:
+        return DEFAULT_STATS.copy()
+
+    u            = meta["data"]["user"]
+    stars        = sum(r["stargazers"]["totalCount"] for r in u["repositories"]["nodes"])
+    created_year = int(u["createdAt"][:4])
+    current_year = datetime.datetime.utcnow().year
+
+    # Step 2: sum totalCommitContributions year-by-year since account creation.
+    # contributionsCollection without a date range only covers the past 12 months,
+    # so we must query each calendar year individually to get an all-time total.
+    commits_q = """
+    query($login: String!, $from: DateTime!, $to: DateTime!) {
+      user(login: $login) {
+        contributionsCollection(from: $from, to: $to) {
           totalCommitContributions
         }
       }
     }"""
-    data = gql(q, {"login": USER_NAME})
-    if not data or "errors" in data:
-        return DEFAULT_STATS.copy()
+    total_commits = 0
+    for year in range(created_year, current_year + 1):
+        data = gql(commits_q, {
+            "login": USER_NAME,
+            "from":  f"{year}-01-01T00:00:00Z",
+            "to":    f"{year}-12-31T23:59:59Z",
+        })
+        if data and "errors" not in data:
+            total_commits += (
+                data["data"]["user"]["contributionsCollection"]["totalCommitContributions"]
+            )
 
-    u = data["data"]["user"]
-    stars = sum(r["stargazers"]["totalCount"] for r in u["repositories"]["nodes"])
     return {
-        "repos": u["repositories"]["totalCount"],
-        "stars": stars,
-        # totalCommitContributions counts only commits, not PRs/issues/reviews
-        "commits": u["contributionsCollection"]["totalCommitContributions"],
+        "repos":     u["repositories"]["totalCount"],
+        "stars":     stars,
+        "commits":   total_commits,
         "followers": u["followers"]["totalCount"],
     }
 
