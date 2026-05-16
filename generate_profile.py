@@ -14,6 +14,7 @@ Optional env vars:
 import base64
 import datetime
 import io
+import json
 import os
 import time
 from pathlib import Path
@@ -227,69 +228,94 @@ def _parse_contributor_response(r, login_lower):
     return 0, 0  # user not a contributor here
 
 
+LOC_CACHE_FILE = Path(__file__).resolve().parent / "loc_cache.json"
+
+
+def _load_loc_cache():
+    try:
+        with open(LOC_CACHE_FILE, encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("added", 0), data.get("deleted", 0)
+    except Exception:
+        return None
+
+
+def _save_loc_cache(added, deleted):
+    try:
+        with open(LOC_CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump({"added": added, "deleted": deleted}, f)
+    except Exception:
+        pass
+
+
+def _collect(repos, pending_set, login_lower):
+    """Hit every repo in repos once. Updates pending_set in-place."""
+    added_total = deleted_total = 0
+    for repo in repos:
+        try:
+            r = requests.get(
+                f"https://api.github.com/repos/{repo}/stats/contributors",
+                headers=HEADERS, timeout=10,
+            )
+        except requests.RequestException:
+            continue
+        result = _parse_contributor_response(r, login_lower)
+        if result is None:
+            pending_set.add(repo)
+        else:
+            pending_set.discard(repo)
+            added_total   += result[0]
+            deleted_total += result[1]
+    return added_total, deleted_total
+
+
 def get_loc():
     """
-    Returns (total_str, added_str, deleted_str) representing lines of code
-    the user has committed across all owned repositories, using GitHub's
-    contributor stats API (full history, no sampling).
+    Returns (total_str, added_str, deleted_str) for lines committed across all
+    owned repos using GitHub's contributor stats API (full history, no sampling).
 
-    Uses a two-phase strategy to handle GitHub's 202 cache-warming responses
-    without burning time on per-repo sequential retries:
-      Phase 1 — hit every repo once; collect results, note which need warming.
-      Wait    — one single sleep to let GitHub compute pending stats.
-      Phase 2 — retry only the still-pending repos (one more attempt each).
+    Three-phase strategy with 25s waits between phases handles GitHub's 202
+    cache-warming. If GitHub never returns data, falls back to loc_cache.json
+    so the SVG always shows a real number after the first successful run.
     """
     repos = get_repositories()
     if not repos:
         return "refreshing", "pending", "pending"
 
     login_lower = USER_NAME.lower()
-    stats_url = lambda repo: f"https://api.github.com/repos/{repo}/stats/contributors"
+    total_added = total_deleted = 0
+    pending = set()
 
-    total_added = 0
-    total_deleted = 0
-    pending = []  # repos that returned 202 in phase 1
-
-    # ── Phase 1: warm the cache for all repos ────────────────────────────────
     print(f"LOC phase 1: querying {len(repos)} repos…", flush=True)
-    for repo in repos:
-        try:
-            r = requests.get(stats_url(repo), headers=HEADERS, timeout=10)
-        except requests.RequestException:
-            continue
+    a, d = _collect(repos, pending, login_lower)
+    total_added += a; total_deleted += d
 
-        result = _parse_contributor_response(r, login_lower)
-        if result is None:
-            pending.append(repo)  # 202 — needs warming
-        else:
-            added, deleted = result
-            total_added   += added
-            total_deleted += deleted
-
-    # ── Wait once for GitHub to compute pending stats ─────────────────────────
     if pending:
-        wait = 12  # seconds — enough for GitHub to finish computing
-        print(f"LOC: {len(pending)} repo(s) still pending, waiting {wait}s…", flush=True)
-        time.sleep(wait)
+        print(f"LOC: {len(pending)} pending, waiting 25s…", flush=True)
+        time.sleep(25)
+        print(f"LOC phase 2: retrying {len(pending)} repos…", flush=True)
+        a, d = _collect(list(pending), pending, login_lower)
+        total_added += a; total_deleted += d
 
-        # ── Phase 2: collect the now-ready stats ──────────────────────────────
-        print(f"LOC phase 2: retrying {len(pending)} pending repo(s)…", flush=True)
-        for repo in pending:
-            try:
-                r = requests.get(stats_url(repo), headers=HEADERS, timeout=10)
-            except requests.RequestException:
-                continue
+    if pending:
+        print(f"LOC: {len(pending)} still pending, waiting 25s more…", flush=True)
+        time.sleep(25)
+        print(f"LOC phase 3: final retry of {len(pending)} repos…", flush=True)
+        a, d = _collect(list(pending), pending, login_lower)
+        total_added += a; total_deleted += d
 
-            result = _parse_contributor_response(r, login_lower)
-            if result is None:
-                print(f"  LOC: {repo} still pending after warm-up, skipping.", flush=True)
-                continue
-            added, deleted = result
-            total_added   += added
-            total_deleted += deleted
+    if pending:
+        print(f"LOC: {len(pending)} repo(s) never resolved, skipped.", flush=True)
 
     if total_added == 0 and total_deleted == 0:
-        return "refreshing", "pending", "pending"
+        cached = _load_loc_cache()
+        if cached:
+            total_added, total_deleted = cached
+            print("LOC: using cached values from previous run.", flush=True)
+        else:
+            return "refreshing", "pending", "pending"
+    else:
+        _save_loc_cache(total_added, total_deleted)
 
     total = total_added + total_deleted
     return (
