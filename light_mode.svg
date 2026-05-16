@@ -10,7 +10,7 @@
   <text x="720.0" y="91.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#60758a" xml:space="preserve" letter-spacing="0">.</text>
   <text x="744.0" y="91.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#ff8f40" xml:space="preserve" letter-spacing="0" font-weight="700">Uptime:</text>
   <text x="837.6" y="91.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#60758a" xml:space="preserve" letter-spacing="2">..............................</text>
-  <text x="1166.4" y="91.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#8cc8ff" xml:space="preserve" letter-spacing="0" font-weight="600">22 years, 2 months, 26 days</text>
+  <text x="1166.4" y="91.3" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#8cc8ff" xml:space="preserve" letter-spacing="0" font-weight="600">22 years, 2 months, 27 days</text>
   <text x="720.0" y="116.8" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#60758a" xml:space="preserve" letter-spacing="0">.</text>
   <text x="744.0" y="116.8" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#ff8f40" xml:space="preserve" letter-spacing="0" font-weight="700">Host:</text>
   <text x="816.0" y="116.8" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#60758a" xml:space="preserve" letter-spacing="2">.........................................</text>
@@ -69,7 +69,7 @@
   <text x="1124.8" y="500.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#8cc8ff" xml:space="preserve" letter-spacing="0" font-weight="600">2</text>
   <text x="720.0" y="526.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#60758a" xml:space="preserve" letter-spacing="0">.</text>
   <text x="744.0" y="526.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#ff8f40" xml:space="preserve" letter-spacing="0" font-weight="700">Commits:</text>
-  <text x="842.4" y="526.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#8cc8ff" xml:space="preserve" letter-spacing="0" font-weight="600">217</text>
+  <text x="842.4" y="526.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#8cc8ff" xml:space="preserve" letter-spacing="0" font-weight="600">218</text>
   <text x="1026.0" y="526.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#e6edf3" xml:space="preserve" letter-spacing="0" font-weight="700">|</text>
   <text x="1048.0" y="526.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#ff8f40" xml:space="preserve" letter-spacing="0" font-weight="700">Followers:</text>
   <text x="1168.0" y="526.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#8cc8ff" xml:space="preserve" letter-spacing="0" font-weight="600">9</text>
