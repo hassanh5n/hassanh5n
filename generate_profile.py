@@ -201,54 +201,30 @@ def get_repositories():
     return repos or get_public_repositories()
 
 
-def get_contributor_stats(repo, retries=4, delay=4):
+def _parse_contributor_response(r, login_lower):
     """
-    Fetch total additions/deletions for USER_NAME in a repo using GitHub's
-    pre-computed contributor stats endpoint. One call per repo covers the
-    repo's entire commit history — no sampling, no per-commit requests.
-
-    GitHub returns 202 when it is (re)computing the stats; we retry with a
-    short sleep until the data is ready or retries are exhausted.
+    Parse a contributor stats response.
+    Returns (added, deleted) on success, None if still pending (202), or (0, 0) on skip.
     """
-    url = f"https://api.github.com/repos/{repo}/stats/contributors"
-    login_lower = USER_NAME.lower()
-
-    for attempt in range(retries):
-        try:
-            r = requests.get(url, headers=HEADERS, timeout=12)
-        except requests.RequestException:
-            return 0, 0
-
-        if r.status_code == 202:
-            # GitHub is still computing; wait and retry
-            print(f"  LOC: {repo} stats pending (attempt {attempt + 1}/{retries}), waiting {delay}s…", flush=True)
-            time.sleep(delay)
-            continue
-
-        if r.status_code == 204:
-            # Empty repo — no commits at all
-            return 0, 0
-
-        if r.status_code != 200:
-            return 0, 0
-
-        data = r.json()
-        if not isinstance(data, list):
-            return 0, 0
-
-        for contributor in data:
-            author = contributor.get("author") or {}
-            if (author.get("login") or "").lower() == login_lower:
-                added   = sum(w.get("a", 0) for w in contributor.get("weeks", []))
-                deleted = sum(w.get("d", 0) for w in contributor.get("weeks", []))
-                return added, deleted
-
-        # User has no commits in this repo
+    if r.status_code == 202:
+        return None  # still computing
+    if r.status_code in (204, 404):
+        return 0, 0  # empty or missing repo
+    if r.status_code != 200:
         return 0, 0
 
-    # Retries exhausted (still 202)
-    print(f"  LOC: {repo} stats not ready after {retries} attempts, skipping.", flush=True)
-    return 0, 0
+    data = r.json()
+    if not isinstance(data, list):
+        return 0, 0
+
+    for contributor in data:
+        author = contributor.get("author") or {}
+        if (author.get("login") or "").lower() == login_lower:
+            added   = sum(w.get("a", 0) for w in contributor.get("weeks", []))
+            deleted = sum(w.get("d", 0) for w in contributor.get("weeks", []))
+            return added, deleted
+
+    return 0, 0  # user not a contributor here
 
 
 def get_loc():
@@ -256,24 +232,63 @@ def get_loc():
     Returns (total_str, added_str, deleted_str) representing lines of code
     the user has committed across all owned repositories, using GitHub's
     contributor stats API (full history, no sampling).
+
+    Uses a two-phase strategy to handle GitHub's 202 cache-warming responses
+    without burning time on per-repo sequential retries:
+      Phase 1 — hit every repo once; collect results, note which need warming.
+      Wait    — one single sleep to let GitHub compute pending stats.
+      Phase 2 — retry only the still-pending repos (one more attempt each).
     """
     repos = get_repositories()
     if not repos:
         return "refreshing", "pending", "pending"
 
+    login_lower = USER_NAME.lower()
+    stats_url = lambda repo: f"https://api.github.com/repos/{repo}/stats/contributors"
+
     total_added = 0
     total_deleted = 0
-    found_any = False
+    pending = []  # repos that returned 202 in phase 1
 
+    # ── Phase 1: warm the cache for all repos ────────────────────────────────
+    print(f"LOC phase 1: querying {len(repos)} repos…", flush=True)
     for repo in repos:
-        print(f"LOC: checking {repo}", flush=True)
-        added, deleted = get_contributor_stats(repo)
-        if added > 0 or deleted > 0:
-            total_added += added
-            total_deleted += deleted
-            found_any = True
+        try:
+            r = requests.get(stats_url(repo), headers=HEADERS, timeout=10)
+        except requests.RequestException:
+            continue
 
-    if not found_any:
+        result = _parse_contributor_response(r, login_lower)
+        if result is None:
+            pending.append(repo)  # 202 — needs warming
+        else:
+            added, deleted = result
+            total_added   += added
+            total_deleted += deleted
+
+    # ── Wait once for GitHub to compute pending stats ─────────────────────────
+    if pending:
+        wait = 12  # seconds — enough for GitHub to finish computing
+        print(f"LOC: {len(pending)} repo(s) still pending, waiting {wait}s…", flush=True)
+        time.sleep(wait)
+
+        # ── Phase 2: collect the now-ready stats ──────────────────────────────
+        print(f"LOC phase 2: retrying {len(pending)} pending repo(s)…", flush=True)
+        for repo in pending:
+            try:
+                r = requests.get(stats_url(repo), headers=HEADERS, timeout=10)
+            except requests.RequestException:
+                continue
+
+            result = _parse_contributor_response(r, login_lower)
+            if result is None:
+                print(f"  LOC: {repo} still pending after warm-up, skipping.", flush=True)
+                continue
+            added, deleted = result
+            total_added   += added
+            total_deleted += deleted
+
+    if total_added == 0 and total_deleted == 0:
         return "refreshing", "pending", "pending"
 
     total = total_added + total_deleted
