@@ -51,7 +51,7 @@ jobs:
         run: |
           git config user.name "$PROFILE_COMMIT_NAME"
           git config user.email "$PROFILE_COMMIT_EMAIL"
-          git add dark_mode.svg light_mode.svg loc_cache.json
-          git diff --cached --quiet || git commit -m "Update profile SVG [skip ci]"
+          git add dark_mode.svg light_mode.svg cache/loc_data.txt
+          git diff --cached --quiet || (git commit -m "Update profile SVG [skip ci]" && git pull --rebase origin main && git push origin HEAD:main)
           git pull --rebase origin main
           git push origin HEAD:main

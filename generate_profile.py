@@ -13,10 +13,9 @@ Optional env vars:
 
 import base64
 import datetime
+import hashlib
 import io
-import json
 import os
-import time
 from pathlib import Path
 from urllib.parse import quote
 
@@ -146,183 +145,202 @@ def get_user_stats():
     }
 
 
-def request_json(url, params=None, timeout=8):
-    try:
-        r = requests.get(url, params=params or {}, headers=HEADERS, timeout=timeout)
-    except requests.RequestException:
-        return None
+# ── LOC via GraphQL commit pagination (Andrew6rant approach) ──────────────────
+#
+# The REST contributor stats endpoint (/repos/{r}/stats/contributors) returns
+# 202 indefinitely from GitHub Actions because the cache is always cold on a
+# fresh runner. Instead we use GraphQL to paginate every commit on the default
+# branch and filter by the user's node ID — accurate, reliable, no polling.
+#
+# Results are cached in cache/loc_data.txt so only repos whose commit count
+# changed since the last run are re-fetched, making daily runs fast.
 
-    if r.status_code == 200:
-        return r.json()
+LOC_CACHE_DIR  = Path(__file__).resolve().parent / "cache"
+LOC_CACHE_FILE = LOC_CACHE_DIR / "loc_data.txt"
+
+
+def _get_owner_id():
+    """Return the GitHub node ID for USER_NAME, e.g. {'id': 'MDQ6VXNlcjU3...'}.
+    Used to identify commits authored by the user across all repos."""
+    q = "query($login:String!){user(login:$login){id}}"
+    data = gql(q, {"login": USER_NAME})
+    if data and "errors" not in data:
+        return {"id": data["data"]["user"]["id"]}
     return None
 
 
-def get_public_repositories():
-    repos = []
-    page = 1
-    while True:
-        data = request_json(
-            f"https://api.github.com/users/{USER_NAME}/repos",
-            params={"type": "owner", "per_page": 100, "page": page},
-            timeout=10,
-        )
-        if not data:
-            break
-
-        repos.extend(repo["full_name"] for repo in data if not repo.get("fork"))
-        if len(data) < 100:
-            break
-        page += 1
-
-    return repos
-
-
-def get_repositories():
+def _loc_query(owner_id, cursor=None, edges=None):
+    """
+    Fetch all owned non-fork repos with their default-branch commit counts.
+    Returns a list of edge dicts: {nameWithOwner, totalCommits}.
+    Paginates automatically (60 repos per request to avoid 502s).
+    """
+    if edges is None:
+        edges = []
     q = """
     query($login: String!, $cursor: String) {
       user(login: $login) {
-        repositories(ownerAffiliations: [OWNER], isFork: false, first: 100, after: $cursor) {
-          edges { node { nameWithOwner } }
+        repositories(first: 60, after: $cursor,
+                     ownerAffiliations: [OWNER], isFork: false) {
+          edges {
+            node {
+              nameWithOwner
+              defaultBranchRef {
+                target {
+                  ... on Commit { history { totalCount } }
+                }
+              }
+            }
+          }
           pageInfo { endCursor hasNextPage }
         }
       }
     }"""
+    data = gql(q, {"login": USER_NAME, "cursor": cursor})
+    if not data or "errors" in data:
+        return edges
 
-    repos, cursor = [], None
-    while TOKEN:
-        data = gql(q, {"login": USER_NAME, "cursor": cursor})
-        if not data or "errors" in data:
-            break
-        info = data["data"]["user"]["repositories"]
-        repos.extend(e["node"]["nameWithOwner"] for e in info["edges"])
-        if not info["pageInfo"]["hasNextPage"]:
-            break
-        cursor = info["pageInfo"]["endCursor"]
-
-    return repos or get_public_repositories()
+    page = data["data"]["user"]["repositories"]
+    edges += page["edges"]
+    if page["pageInfo"]["hasNextPage"]:
+        return _loc_query(owner_id, page["pageInfo"]["endCursor"], edges)
+    return edges
 
 
-def _parse_contributor_response(r, login_lower):
+def _recursive_loc(owner, repo_name, owner_id,
+                   add=0, delete=0, my_commits=0, cursor=None):
     """
-    Parse a contributor stats response.
-    Returns (added, deleted) on success, None if still pending (202), or (0, 0) on skip.
+    Paginate through commits on the default branch (100 at a time) and
+    accumulate additions/deletions only for commits authored by owner_id.
     """
-    if r.status_code == 202:
-        return None  # still computing
-    if r.status_code in (204, 404):
-        return 0, 0  # empty or missing repo
-    if r.status_code != 200:
-        return 0, 0
+    q = """
+    query($owner: String!, $repo: String!, $cursor: String) {
+      repository(owner: $owner, name: $repo) {
+        defaultBranchRef {
+          target {
+            ... on Commit {
+              history(first: 100, after: $cursor) {
+                edges {
+                  node {
+                    author { user { id } }
+                    additions
+                    deletions
+                  }
+                }
+                pageInfo { endCursor hasNextPage }
+              }
+            }
+          }
+        }
+      }
+    }"""
+    data = gql(q, {"owner": owner, "repo": repo_name, "cursor": cursor})
+    if not data or "errors" in data:
+        return add, delete, my_commits
 
-    data = r.json()
-    if not isinstance(data, list):
-        return 0, 0
+    ref = (data["data"]["repository"] or {}).get("defaultBranchRef")
+    if not ref:
+        return add, delete, my_commits
 
-    for contributor in data:
-        author = contributor.get("author") or {}
-        if (author.get("login") or "").lower() == login_lower:
-            added   = sum(w.get("a", 0) for w in contributor.get("weeks", []))
-            deleted = sum(w.get("d", 0) for w in contributor.get("weeks", []))
-            return added, deleted
+    history = ref["target"]["history"]
+    for edge in history["edges"]:
+        node = edge["node"]
+        author_user = (node.get("author") or {}).get("user")
+        if author_user and author_user.get("id") == owner_id.get("id"):
+            my_commits += 1
+            add    += node["additions"]
+            delete += node["deletions"]
 
-    return 0, 0  # user not a contributor here
+    if history["pageInfo"]["hasNextPage"]:
+        return _recursive_loc(owner, repo_name, owner_id,
+                              add, delete, my_commits,
+                              history["pageInfo"]["endCursor"])
+    return add, delete, my_commits
 
 
-LOC_CACHE_FILE = Path(__file__).resolve().parent / "loc_cache.json"
-
-
-def _load_loc_cache():
+def _load_cache():
+    """
+    Load loc_data.txt. Returns a dict keyed by repo_hash:
+      {repo_hash: [total_commits, my_commits, additions, deletions]}
+    """
+    result = {}
     try:
         with open(LOC_CACHE_FILE, encoding="utf-8") as f:
-            data = json.load(f)
-        return data.get("added", 0), data.get("deleted", 0)
-    except Exception:
-        return None
-
-
-def _save_loc_cache(added, deleted):
-    try:
-        with open(LOC_CACHE_FILE, "w", encoding="utf-8") as f:
-            json.dump({"added": added, "deleted": deleted}, f)
-    except Exception:
+            for line in f:
+                parts = line.split()
+                if len(parts) == 5:
+                    h, tc, mc, a, d = parts
+                    result[h] = [int(tc), int(mc), int(a), int(d)]
+    except FileNotFoundError:
         pass
+    return result
 
 
-def _collect(repos, pending_set, login_lower):
-    """Hit every repo in repos once. Updates pending_set in-place."""
-    added_total = deleted_total = 0
-    for repo in repos:
-        try:
-            r = requests.get(
-                f"https://api.github.com/repos/{repo}/stats/contributors",
-                headers=HEADERS, timeout=10,
-            )
-        except requests.RequestException:
-            continue
-        result = _parse_contributor_response(r, login_lower)
-        if result is None:
-            pending_set.add(repo)
-        else:
-            pending_set.discard(repo)
-            added_total   += result[0]
-            deleted_total += result[1]
-    return added_total, deleted_total
+def _save_cache(cache):
+    LOC_CACHE_DIR.mkdir(exist_ok=True)
+    with open(LOC_CACHE_FILE, "w", encoding="utf-8") as f:
+        for h, (tc, mc, a, d) in cache.items():
+            f.write(f"{h} {tc} {mc} {a} {d}\n")
 
 
 def get_loc():
     """
-    Returns (total_str, added_str, deleted_str) for lines committed across all
-    owned repos using GitHub's contributor stats API (full history, no sampling).
+    Returns (total_str, added_str, deleted_str) for all lines the user has
+    committed across owned repos, using GraphQL commit pagination.
 
-    Three-phase strategy with 25s waits between phases handles GitHub's 202
-    cache-warming. If GitHub never returns data, falls back to loc_cache.json
-    so the SVG always shows a real number after the first successful run.
+    On each run:
+    - Repos whose default-branch commit count hasn't changed → served from cache.
+    - Repos with new commits → re-fetched via _recursive_loc and cache updated.
+    First run is slow (fetches every commit in every repo); subsequent daily
+    runs only re-fetch repos that had new activity.
     """
-    repos = get_repositories()
-    if not repos:
+    if not TOKEN:
         return "refreshing", "pending", "pending"
 
-    login_lower = USER_NAME.lower()
-    total_added = total_deleted = 0
-    pending = set()
+    owner_id = _get_owner_id()
+    if not owner_id:
+        return "refreshing", "pending", "pending"
 
-    print(f"LOC phase 1: querying {len(repos)} repos…", flush=True)
-    a, d = _collect(repos, pending, login_lower)
-    total_added += a; total_deleted += d
+    edges = _loc_query(owner_id)
+    if not edges:
+        return "refreshing", "pending", "pending"
 
-    if pending:
-        print(f"LOC: {len(pending)} pending, waiting 25s…", flush=True)
-        time.sleep(25)
-        print(f"LOC phase 2: retrying {len(pending)} repos…", flush=True)
-        a, d = _collect(list(pending), pending, login_lower)
-        total_added += a; total_deleted += d
+    cache = _load_cache()
+    updated = False
 
-    if pending:
-        print(f"LOC: {len(pending)} still pending, waiting 25s more…", flush=True)
-        time.sleep(25)
-        print(f"LOC phase 3: final retry of {len(pending)} repos…", flush=True)
-        a, d = _collect(list(pending), pending, login_lower)
-        total_added += a; total_deleted += d
+    for edge in edges:
+        node        = edge["node"]
+        name        = node["nameWithOwner"]
+        repo_hash   = hashlib.sha256(name.encode()).hexdigest()
+        ref         = node.get("defaultBranchRef")
+        total_commits = (
+            ref["target"]["history"]["totalCount"]
+            if ref and ref.get("target") else 0
+        )
 
-    if pending:
-        print(f"LOC: {len(pending)} repo(s) never resolved, skipped.", flush=True)
+        cached = cache.get(repo_hash)
+        if cached and cached[0] == total_commits:
+            # commit count unchanged — use cached values
+            continue
 
-    if total_added == 0 and total_deleted == 0:
-        cached = _load_loc_cache()
-        if cached:
-            total_added, total_deleted = cached
-            print("LOC: using cached values from previous run.", flush=True)
-        else:
-            return "refreshing", "pending", "pending"
-    else:
-        _save_loc_cache(total_added, total_deleted)
+        # new or updated repo — fetch fresh LOC
+        owner, repo_name = name.split("/", 1)
+        print(f"  LOC: fetching {name}…", flush=True)
+        a, d, mc = _recursive_loc(owner, repo_name, owner_id)
+        cache[repo_hash] = [total_commits, mc, a, d]
+        updated = True
 
-    total = total_added + total_deleted
-    return (
-        f"{total:,}",
-        f"+{total_added:,}",
-        f"-{total_deleted:,}",
-    )
+    if updated:
+        _save_cache(cache)
+
+    total_add = sum(v[2] for v in cache.values())
+    total_del = sum(v[3] for v in cache.values())
+
+    if total_add == 0 and total_del == 0:
+        return "refreshing", "pending", "pending"
+
+    total = total_add + total_del
+    return f"{total:,}", f"+{total_add:,}", f"-{total_del:,}"
 
 
 def escape(value):
