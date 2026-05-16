@@ -69,11 +69,16 @@
   <text x="1124.8" y="500.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#8cc8ff" xml:space="preserve" letter-spacing="0" font-weight="600">2</text>
   <text x="720.0" y="526.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#60758a" xml:space="preserve" letter-spacing="0">.</text>
   <text x="744.0" y="526.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#ff8f40" xml:space="preserve" letter-spacing="0" font-weight="700">Commits:</text>
-  <text x="842.4" y="526.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#8cc8ff" xml:space="preserve" letter-spacing="0" font-weight="600">212</text>
+  <text x="842.4" y="526.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#8cc8ff" xml:space="preserve" letter-spacing="0" font-weight="600">215</text>
   <text x="1026.0" y="526.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#e6edf3" xml:space="preserve" letter-spacing="0" font-weight="700">|</text>
   <text x="1048.0" y="526.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#ff8f40" xml:space="preserve" letter-spacing="0" font-weight="700">Followers:</text>
   <text x="1168.0" y="526.1" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#8cc8ff" xml:space="preserve" letter-spacing="0" font-weight="600">10</text>
   <text x="720.0" y="551.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#60758a" xml:space="preserve" letter-spacing="0">.</text>
   <text x="744.0" y="551.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#ff8f40" xml:space="preserve" letter-spacing="0" font-weight="700">Lines of Code on GitHub:</text>
-  <text x="1144.8" y="551.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#8cc8ff" xml:space="preserve" letter-spacing="0" font-weight="600">refreshing (pending, pending)</text>
+  <text x="1155.6" y="551.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#8cc8ff" xml:space="preserve" letter-spacing="0" font-weight="600">141,942</text>
+  <text x="1231.2" y="551.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#e6edf3" xml:space="preserve" letter-spacing="0"> ( </text>
+  <text x="1263.6" y="551.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#3fb950" xml:space="preserve" letter-spacing="0" font-weight="700">+132,482</text>
+  <text x="1350.0" y="551.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#e6edf3" xml:space="preserve" letter-spacing="0">, </text>
+  <text x="1371.6" y="551.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#ff6b6b" xml:space="preserve" letter-spacing="0" font-weight="700">-9,460</text>
+  <text x="1436.4" y="551.6" font-family="Cascadia Mono, Fira Code, JetBrains Mono, Consolas, monospace" font-size="20.0" fill="#e6edf3" xml:space="preserve" letter-spacing="0"> )</text>
 </svg>
